@@ -1,0 +1,51 @@
+.TH "ENGLISH NOTARIKON" 1 "September 2012" "eng-qbl 0.1.0" "English Kabbalah"
+.SH NAME
+English Notarikon \- Part of the English Kabbalah suite
+.SH SYNOPSIS
+.B notarikon
+.I FILE acronym
+.SH DESCRIPTION
+Outputs a list of phrases from a given file where the first letter 
+of each word in a phrase is found in the inputted acronym. An 
+acronym can be any word proposed or suspected to be an acronym.
+.PP
+.SS Background
+.PP
+The word "notarikon" is borrowed from Greek language (νοταρικόν)), 
+which in its turn was derived from the Latin word "notarius," 
+meaning "short-hand writer."
+.PP
+Notarikon is a method of finding acronyms where each letter of an 
+acronym is the first letter of each word in a phrase. English 
+examples of this would be the acronym "MADD" deriving from "Mothers 
+Against Drunk Driving," and "NATO" from "North American Treaty 
+Organizaton."
+.SH OPTIONS
+.PP
+\fIFILE\fR 
+Text file from which to find phrases matching acronym
+.PP
+\fIacronym\fR 
+Word representing a proposed acronym
+.SH EXAMPLES
+.RS
+\fBnotarikon\fR ./bible-books/Torah.txt Gog
+.br
+gods of gold
+.br
+gods of gold
+.br
+Gilead of Gilead
+.br
+God of gods
+.br
+grapes of gall
+.RE
+.SH BUGS
+Report technical problems using these programs to the author.
+.SH AUTHOR
+Written by Marc Sylvestre <marc.sylvestre@manhydra.com>
+.SH SEE ALSO
+.IR eng-qbl (1),
+.IR gematria (1),
+.IR temurah (1)
