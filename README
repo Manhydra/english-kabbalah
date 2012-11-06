@@ -58,6 +58,17 @@ military intelligence, and espionage.
 Installation
 ============
 
+English Kabbalah is designed to run on POSIX-compliant systems:
+
+	GNU/Linux
+	FreeBSD, NetBSD, OpenBSD
+	Mac OS X
+	
+For installation on Windows systems:
+
+	http://www.mingw.org
+	http://www.cygwin.com
+
 For information on installation, consult the INSTALL file.
 
 Usages
