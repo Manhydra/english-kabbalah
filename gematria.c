@@ -69,12 +69,12 @@ void displayUsage() {
 		"This is free software, and you are welcome to redistribute it\n"
 		"under certain conditions.\n\n"
 		
-		"  -s | --search  Optional: Text file in which to search for word or phrase of equivalent gematria value.\n"
+		"  -s | --search  Optional: Text file (local or remote) in which to search for word or phrase of equivalent gematria value.\n"
 		"  -p | --phrases Optional: To conduct phrase search, where each resulting phrase has num words.\n"
 		"  -c | --count   Optional: Output the number of finds (words or phrases) only.\n\n"
 		
-		"Usage: gematria [-s FILE | --search=FILE [-p num | --phrases=num] [-c | --count]] Word | 'Phrase'\n"
-		"                [-s FILE | --search=FILE [-p num | --phrases=num] [-c | --count]] -n | --gemval numericvalue\n"
+		"Usage: gematria [-s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num] [-c | --count]] Word | 'Phrase'\n"
+		"                [-s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num] [-c | --count]] -n | --gemval numericvalue\n"
 		"===============================================================\n\n");
 		exit(EXIT_FAILURE);	
 }

@@ -68,6 +68,10 @@ For installation on Windows systems:
 
 	http://www.mingw.org
 	http://www.cygwin.com
+	
+Library required for remote file access:
+
+	libcurl >= 7.21.0
 
 For information on installation, consult the INSTALL file.
 

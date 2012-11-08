@@ -3,13 +3,13 @@
 English Gematria \- Part of the English Kabbalah suite
 .SH SYNOPSIS
 .B gematria
-[\fB\-s\fR \fIFILE\fR | \fB--search=\fR\fIFILE\fR] 
+[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
 [\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
 [\fB\-c\fR | \fB--count\fR]] 
 \fIWord\fR | \fI'Phrase'\fR
 .br
 .RS
-  [\fB\-s\fR \fIFILE\fR | \fB--search=\fR\fIFILE\fR] 
+  [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
 [\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
 [\fB\-c\fR | \fB--count\fR]] 
 \fB\-n\fR | \fB--gemval\fR \fInumericvalue\fR
@@ -42,8 +42,8 @@ From this, it can be concluded that "God" (26) is both "one" and
 "love" (13 + 13).
 .SH OPTIONS
 .TP
-\fB-s\fR, \fB--search\fR
-Optional: Text file in which to search for word or phrase of equivalent gematria value.
+\fB-s\fR, \fB--search\fR \fIFILE\fR|\fIURL\fR
+Optional: Text file (local or remote) in which to search for word or phrase of equivalent gematria value.
 .TP
 \fB-p\fR, \fB--phrases\fR
 Optional: To conduct phrase search, where each resulting phrase has \fInum\fR words.
@@ -75,12 +75,15 @@ Phrases should always be enclosed in single or double quotes:
 .RE
 .PP
 The most useful method of English Gematria is to find words or 
-phrases of equal English Gematria value within text files:
+phrases of equal English Gematria value within local or remote text 
+files:
 .PP
 .RS
 \fBgematria -s\fR /path/to/textfile people
 .br
 \fBgematria -s\fR /path/to/textfile \fB-p\fR 3 'of mice and men'
+.br
+\fBgematria -s\fR http://www.example.com/dir/page 'the storm'
 .RE
 .PP
 A specified value can also be passed to find words or phrases of 

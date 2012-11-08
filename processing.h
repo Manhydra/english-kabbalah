@@ -23,11 +23,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "config.h"
+
 
 /* Structure to store information on file stream and size. */
 struct filebuffer {
 	char *fbuffer;
 	long int fbsize;
+	int fbtype; /* 0 = local, 1 = remote */
 };
 
 /* 
@@ -41,11 +44,19 @@ struct wordlist {
 
 /*
  * Returns string containing only alphabet characters
- * name: strip_nonalpha
+ * name: stripNonAlpha
  * @param string
  * @return string
  */
 char *stripNonAlpha(char*);
+
+/*
+ * Returns string containing no potential hypertext markup (e.g., <>)
+ * name: stripMarkupTags
+ * @param string
+ * @return string
+ */
+char *stripMarkupTags(char*);
 
 /*
  * Covert upper cased letters to lower case while leaving already lower

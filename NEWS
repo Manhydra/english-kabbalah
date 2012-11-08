@@ -1,0 +1,7 @@
+0.1.1
+-----
+
+Now capable of searching remote files via libcurl.
+
+- Added libcurl to allow for searching results on remote files, web pages, etc.
+- Created stripMarkupTags() to strips markup language tags (e.g. <body>, <div>, etc.) from hypertext documents.

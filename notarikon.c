@@ -31,7 +31,7 @@ void displayUsage(const char *progname) {
 		"This is free software, and you are welcome to redistribute it\n"
 		"under certain conditions.\n\n"
 		
-		"Usage: %s FILE acronym\n"
+		"Usage: %s {FILE | URL} acronym\n"
 		"===============================================================\n\n", progname);
 		exit(EXIT_FAILURE);	
 }

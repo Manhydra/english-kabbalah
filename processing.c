@@ -18,9 +18,12 @@
  */
 
 #include "processing.h"
+#ifdef HAVE_CURL_CURL_H	
+ #include <curl/curl.h>
+#endif
 
 /*
- * name: strip_nonalpha
+ * name: stripNonAlpha
  * @param string
  * @return string
  */
@@ -29,10 +32,7 @@ char *stripNonAlpha(char *w) {
 	int i, n = 0;
 	char *temp = NULL;
 
-	if (w[wl] == '\n') {
-		w[wl] = '\0';
-		wl--;
-	}
+	if (w[wl] == '\n') w[wl--] = '\0';
 
 	if (! (temp = (char*) malloc(wl)) )
 		return NULL;
@@ -40,15 +40,37 @@ char *stripNonAlpha(char *w) {
 	for (i = 0; i < wl; ++i) {
 		if ( (w[i] >= 'A' && w[i] <= 'Z') ||
 			 (w[i] >= 'a' && w[i] <= 'z') ||
-			  w[i] == ' ' ) {
-			temp[n] = w[i];
-			n++;
-		} else if (w[i] == '\n') {
-			temp[n] = ' ';
-			n++;
-		}
+			  w[i] == ' ' )
+			temp[n++] = w[i];
+		else if (w[i] == '\r' || w[i] == '\n')
+			temp[n++] = ' ';
 	}
 	temp[n] = '\0';
+	return temp;
+	free(temp);
+}
+
+/*
+ * name: stripMarkupTags
+ * @param string
+ * @return string
+ */
+char *stripMarkupTags(char *w) {
+	int wl = strlen(w);
+	int i, n = 0;
+	char *temp = NULL;
+
+	if (! (temp = (char*) malloc(wl)) )
+		return NULL;
+
+	for (i = 0; i < wl; ++i) {
+		if (w[i] == '<') {
+			while (w[++i] != '>' && w[i+1] != '\0') continue;
+			temp[n++] = w[++i];
+		} else temp[n++] = w[i];
+	}	
+	temp[n] = '\0';
+	
 	return temp;
 	free(temp);
 }
@@ -121,18 +143,60 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
 	return c1 - c2;
 }
 
+#ifdef HAVE_CURL_CURL_H	
 /*
- * name: filebuffer
+ * Curl callback function for processing remote files
+ * 
+ * name: curlCallback
+ * @param void*, size_t, size_t, void*
+ * @return size_t
+ */
+static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data) {
+	size_t realsize = size * nmemb;
+	struct filebuffer *fb = (struct filebuffer*) data;
+	
+	if (! (fb->fbuffer = (char*) realloc(fb->fbuffer, fb->fbsize + realsize + 1)) ) {
+		fprintf(stderr, "Not enough memory (realloc returned NULL)\n");
+		return 0;
+	}
+	
+	memcpy(&(fb->fbuffer[fb->fbsize]), contents, realsize);
+	fb->fbsize += realsize;
+	fb->fbuffer[fb->fbsize] = 0;
+	
+	fb->fbuffer = stripNonAlpha(stripMarkupTags(fb->fbuffer));
+	fb->fbsize = strlen(fb->fbuffer);
+	
+	return realsize;
+}
+#endif
+
+/*
+ * name: proccessFile
  * @param string
  * @return pointer to struct filebuffer
  */
 struct filebuffer *proccessFile(const char *pFile) {
-	struct filebuffer *fb = NULL;
+	struct filebuffer *fb = malloc(sizeof(struct filebuffer));
 	FILE *srchFile;
-
+#ifdef HAVE_CURL_CURL_H	
+	CURL *webRes;
+	
+	if (strncmpi(pFile, "http", 4) == 0) {
+		fb->fbuffer = malloc(1);
+		fb->fbsize = 0;
+		curl_global_init(CURL_GLOBAL_ALL);
+		webRes = curl_easy_init();
+		curl_easy_setopt(webRes, CURLOPT_URL, pFile);
+		curl_easy_setopt(webRes, CURLOPT_WRITEFUNCTION, curlCallback);
+		curl_easy_setopt(webRes, CURLOPT_WRITEDATA, (void*) fb);
+		curl_easy_setopt(webRes, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+		curl_easy_perform(webRes);
+		curl_easy_cleanup(webRes);
+		curl_global_cleanup();
+	} else 
+#endif
 	if ((srchFile = fopen(pFile, "r"))) {
-		fb = malloc(sizeof(struct filebuffer));
-
 		fseek(srchFile, 0, SEEK_END);
 	  	fb->fbsize = ftell(srchFile);
 	  	rewind(srchFile);

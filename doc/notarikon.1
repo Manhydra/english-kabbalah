@@ -3,7 +3,7 @@
 English Notarikon \- Part of the English Kabbalah suite
 .SH SYNOPSIS
 .B notarikon
-.I FILE acronym
+{\fIFILE\fR | \fIURL\fR} \fIacronym\fR
 .SH DESCRIPTION
 Outputs a list of phrases from a given file where the first letter 
 of each word in a phrase is found in the inputted acronym. An 
@@ -22,11 +22,11 @@ Against Drunk Driving," and "NATO" from "North American Treaty
 Organizaton."
 .SH OPTIONS
 .PP
-\fIFILE\fR 
-Text file from which to find phrases matching acronym
+\fIFILE\fR|\fIURL\fR
+Local or remote text file from which to find phrases matching acronym
 .PP
 \fIacronym\fR 
-Word representing a proposed acronym
+A word representing a proposed acronym
 .SH EXAMPLES
 .RS
 \fBnotarikon\fR ./bible-books/Torah.txt Gog
