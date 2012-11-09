@@ -30,24 +30,28 @@
 char *stripNonAlpha(char *w) {
 	int wl = strlen(w);
 	int i, n = 0;
-	char *temp = NULL;
+	char *naTemp = NULL;
 
 	if (w[wl] == '\n') w[wl--] = '\0';
 
-	if (! (temp = (char*) malloc(wl)) )
+	if (! (naTemp = (char*) realloc(naTemp, wl)) )
 		return NULL;
 
 	for (i = 0; i < wl; ++i) {
 		if ( (w[i] >= 'A' && w[i] <= 'Z') ||
 			 (w[i] >= 'a' && w[i] <= 'z') ||
 			  w[i] == ' ' )
-			temp[n++] = w[i];
+			naTemp[n++] = w[i];
 		else if (w[i] == '\r' || w[i] == '\n')
-			temp[n++] = ' ';
+			naTemp[n++] = ' ';
 	}
-	temp[n] = '\0';
-	return temp;
-	free(temp);
+	naTemp[n] = '\0';
+	
+	if (! (naTemp = (char*) realloc(naTemp, n)) )
+		return NULL;
+	
+	return naTemp;
+	free(naTemp);
 }
 
 /*
@@ -58,21 +62,25 @@ char *stripNonAlpha(char *w) {
 char *stripMarkupTags(char *w) {
 	int wl = strlen(w);
 	int i, n = 0;
-	char *temp = NULL;
+	char *mtTemp = NULL;
 
-	if (! (temp = (char*) malloc(wl)) )
+	if (! (mtTemp = (char*) realloc(mtTemp, wl)) )
 		return NULL;
 
 	for (i = 0; i < wl; ++i) {
 		if (w[i] == '<') {
-			while (w[++i] != '>' && w[i+1] != '\0') continue;
-			temp[n++] = w[++i];
-		} else temp[n++] = w[i];
+			while (w[++i] != '>' && w[i] != '\0') continue;
+			if (w[++i] != '<' && w[i] != '\0') mtTemp[n++] = w[i];
+			else --i;
+		} else mtTemp[n++] = w[i];
 	}	
-	temp[n] = '\0';
+	mtTemp[n] = '\0';
 	
-	return temp;
-	free(temp);
+	if (! (mtTemp = (char*) realloc(mtTemp, n)) )
+		return NULL;	
+		
+	return mtTemp;
+	free(mtTemp);
 }
 
 /*
@@ -162,7 +170,7 @@ static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data
 	
 	memcpy(&(fb->fbuffer[fb->fbsize]), contents, realsize);
 	fb->fbsize += realsize;
-	fb->fbuffer[fb->fbsize] = 0;
+	fb->fbuffer[fb->fbsize] = '\0';
 	
 	fb->fbuffer = stripNonAlpha(stripMarkupTags(fb->fbuffer));
 	fb->fbsize = strlen(fb->fbuffer);
@@ -183,8 +191,6 @@ struct filebuffer *proccessFile(const char *pFile) {
 	CURL *webRes;
 	
 	if (strncmpi(pFile, "http", 4) == 0) {
-		fb->fbuffer = malloc(1);
-		fb->fbsize = 0;
 		curl_global_init(CURL_GLOBAL_ALL);
 		webRes = curl_easy_init();
 		curl_easy_setopt(webRes, CURLOPT_URL, pFile);
