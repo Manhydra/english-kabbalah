@@ -18,7 +18,7 @@
  */
 
 #include "processing.h"
-#ifdef HAVE_CURL_CURL_H	
+#ifdef HAVE_CURL_CURL_H
  #include <curl/curl.h>
 #endif
 
@@ -46,12 +46,8 @@ char *stripNonAlpha(char *w) {
 			naTemp[n++] = ' ';
 	}
 	naTemp[n] = '\0';
-	
-	if (! (naTemp = (char*) realloc(naTemp, n)) )
-		return NULL;
-	
+
 	return naTemp;
-	free(naTemp);
 }
 
 /*
@@ -61,26 +57,38 @@ char *stripNonAlpha(char *w) {
  */
 char *stripMarkupTags(char *w) {
 	int wl = strlen(w);
-	int i, n = 0;
+	int n = 0;
 	char *mtTemp = NULL;
 
 	if (! (mtTemp = (char*) realloc(mtTemp, wl)) )
 		return NULL;
 
-	for (i = 0; i < wl; ++i) {
+	for (int i = 0; i < wl; ++i) {
 		if (w[i] == '<') {
+			if (w[i+1] == 's' &&
+				w[i+2] == 'c' &&
+				w[i+3] == 'r' &&
+				w[i+4] == 'i' &&
+				w[i+5] == 'p' &&
+				w[i+6] == 't') {
+				i += 7;
+				while (w[++i] != '<' && w[i] != '\0') continue;
+				if (w[i+1] == '/' &&
+					w[i+2] == 's' &&
+					w[i+3] == 'c' &&
+					w[i+4] == 'r' &&
+					w[i+5] == 'i' &&
+					w[i+6] == 'p' &&
+					w[i+7] == 't') i += 7;
+			}
 			while (w[++i] != '>' && w[i] != '\0') continue;
 			if (w[++i] != '<' && w[i] != '\0') mtTemp[n++] = w[i];
 			else --i;
 		} else mtTemp[n++] = w[i];
-	}	
+	}
 	mtTemp[n] = '\0';
-	
-	if (! (mtTemp = (char*) realloc(mtTemp, n)) )
-		return NULL;	
-		
+
 	return mtTemp;
-	free(mtTemp);
 }
 
 /*
@@ -151,10 +159,10 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
 	return c1 - c2;
 }
 
-#ifdef HAVE_CURL_CURL_H	
+#ifdef HAVE_CURL_CURL_H
 /*
  * Curl callback function for processing remote files
- * 
+ *
  * name: curlCallback
  * @param void*, size_t, size_t, void*
  * @return size_t
@@ -162,19 +170,24 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
 static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data) {
 	size_t realsize = size * nmemb;
 	struct filebuffer *fb = (struct filebuffer*) data;
-	
+
 	if (! (fb->fbuffer = (char*) realloc(fb->fbuffer, fb->fbsize + realsize + 1)) ) {
 		fprintf(stderr, "Not enough memory (realloc returned NULL)\n");
 		return 0;
 	}
-	
+
 	memcpy(&(fb->fbuffer[fb->fbsize]), contents, realsize);
 	fb->fbsize += realsize;
 	fb->fbuffer[fb->fbsize] = '\0';
-	
-	fb->fbuffer = stripNonAlpha(stripMarkupTags(fb->fbuffer));
+
+	char *smt = stripMarkupTags(fb->fbuffer);
+	char *sma = stripNonAlpha(smt);
+	free(smt);
+
+	strncpy(fb->fbuffer, sma, strlen(sma));
 	fb->fbsize = strlen(fb->fbuffer);
-	
+	free(sma);
+
 	return realsize;
 }
 #endif
@@ -185,12 +198,14 @@ static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data
  * @return pointer to struct filebuffer
  */
 struct filebuffer *proccessFile(const char *pFile) {
-	struct filebuffer *fb = malloc(sizeof(struct filebuffer));
+	struct filebuffer *fb = NULL;
 	FILE *srchFile;
-#ifdef HAVE_CURL_CURL_H	
+#ifdef HAVE_CURL_CURL_H
 	CURL *webRes;
-	
 	if (strncmpi(pFile, "http", 4) == 0) {
+		fb = (struct filebuffer*) malloc(sizeof(struct filebuffer));
+		fb->fbuffer = malloc(1);
+		fb->fbsize = 0;
 		curl_global_init(CURL_GLOBAL_ALL);
 		webRes = curl_easy_init();
 		curl_easy_setopt(webRes, CURLOPT_URL, pFile);
@@ -200,9 +215,11 @@ struct filebuffer *proccessFile(const char *pFile) {
 		curl_easy_perform(webRes);
 		curl_easy_cleanup(webRes);
 		curl_global_cleanup();
-	} else 
+	} else
 #endif
 	if ((srchFile = fopen(pFile, "r"))) {
+		fb = (struct filebuffer*) malloc(sizeof(struct filebuffer));
+
 		fseek(srchFile, 0, SEEK_END);
 	  	fb->fbsize = ftell(srchFile);
 	  	rewind(srchFile);
@@ -215,8 +232,12 @@ struct filebuffer *proccessFile(const char *pFile) {
 
 		fclose(srchFile);
 
-	  	fb->fbuffer = stripNonAlpha(fb->fbuffer);
+		char *tmpbuff = stripNonAlpha(fb->fbuffer);
+
+	  	strncpy(fb->fbuffer, tmpbuff, strlen(tmpbuff));
 	  	fb->fbsize = strlen(fb->fbuffer);
+
+	  	free(tmpbuff);
 	}
 
   	return fb;
@@ -254,39 +275,39 @@ struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phras
 		unsortedWords->numwords++;
 	}
 
-	free(FB);
-
-	if (! (unsortedPhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-		return NULL;
-
-	if (! (unsortedPhrases->words = (char**) calloc(unsortedWords->numwords, sizeof(char*))) )
-		return NULL;
-
-	if (unsortedWords->numwords < phraseNumWords)
-		phraseNumWords = unsortedWords->numwords;
-
-	int phraseIndices = phraseNumWords - 1;
-
-	int phraseSize[unsortedWords->numwords];
-	for (i = phraseIndices; i < unsortedWords->numwords; ++i) {
-		phraseSize[i] = 0;
-		for (j = phraseIndices; j > -1; --j)
-			phraseSize[i] += strlen(unsortedWords->words[i-j])+1;
-	}
-
-	for (unsortedPhrases->numwords = 0, i = phraseIndices; i < unsortedWords->numwords; ++i) {
-		if (! (unsortedPhrases->words[i-phraseIndices] = (char*) malloc(phraseSize[i] * sizeof(char))) )
+	if (ltype == phrasetype) {
+		if (! (unsortedPhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
 			return NULL;
 
-		unsortedPhrases->words[i-phraseIndices][0] = '\0';
+		if (! (unsortedPhrases->words = (char**) calloc(unsortedWords->numwords, sizeof(char*))) )
+			return NULL;
 
-		for (j = phraseIndices; j > -1; --j) {
-			if (j < phraseIndices)
-				strncat(unsortedPhrases->words[i-phraseIndices], " ", 1);
+		if (unsortedWords->numwords < phraseNumWords)
+			phraseNumWords = unsortedWords->numwords;
 
-			strncat(unsortedPhrases->words[i-phraseIndices], unsortedWords->words[i-j], phraseSize[i-j]);
+		int phraseIndices = phraseNumWords - 1;
+
+		int phraseSize[unsortedWords->numwords];
+		for (i = phraseIndices; i < unsortedWords->numwords; ++i) {
+			phraseSize[i] = 0;
+			for (j = phraseIndices; j > -1; --j)
+				phraseSize[i] += strlen(unsortedWords->words[i-j])+1;
 		}
-		unsortedPhrases->numwords++;
+
+		for (unsortedPhrases->numwords = 0, i = phraseIndices; i < unsortedWords->numwords; ++i) {
+			if (! (unsortedPhrases->words[i-phraseIndices] = (char*) malloc(phraseSize[i] * sizeof(char))) )
+				return NULL;
+
+			unsortedPhrases->words[i-phraseIndices][0] = '\0';
+
+			for (j = phraseIndices; j > -1; --j) {
+				if (j < phraseIndices)
+					strncat(unsortedPhrases->words[i-phraseIndices], " ", 1);
+
+				strncat(unsortedPhrases->words[i-phraseIndices], unsortedWords->words[i-j], phraseSize[i-j]);
+			}
+			unsortedPhrases->numwords++;
+		}
 	}
 	/* ********** End Lists Collection ********** */
 
@@ -311,55 +332,64 @@ struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phras
 		}
 	}
 
-	if (! (uniquePhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-		return NULL;
+	if (ltype == phrasetype) {
+		if (! (uniquePhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
+			return NULL;
 
-	if (! (uniquePhrases->words = (char**) calloc(unsortedPhrases->numwords, sizeof(char*))) )
-		return NULL;
+		if (! (uniquePhrases->words = (char**) calloc(unsortedPhrases->numwords, sizeof(char*))) )
+			return NULL;
 
-	for (uniquePhrases->numwords = 0, i = 0; i < unsortedPhrases->numwords; ++i) {
-		found = 0;
-		for (j = 0; j < unsortedPhrases->numwords; ++j) {
-			if (uniquePhrases->words[j] == NULL) break;
-			if (strncmpi(uniquePhrases->words[j], unsortedPhrases->words[i], strlen(unsortedPhrases->words[i])) == 0) {
-				found = 1; break;
+		for (uniquePhrases->numwords = 0, i = 0; i < unsortedPhrases->numwords; ++i) {
+			found = 0;
+			for (j = 0; j < unsortedPhrases->numwords; ++j) {
+				if (uniquePhrases->words[j] == NULL) break;
+				if (strncmpi(uniquePhrases->words[j], unsortedPhrases->words[i], strlen(unsortedPhrases->words[i])) == 0) {
+					found = 1; break;
+				}
 			}
-		}
-		if (!found) {
-			uniquePhrases->words[j] = strdup(unsortedPhrases->words[i]);
-			uniquePhrases->numwords++;
+			if (!found) {
+				uniquePhrases->words[j] = strdup(unsortedPhrases->words[i]);
+				uniquePhrases->numwords++;
+			}
 		}
 	}
 	/* ********** End Lists Sort ********** */
 
-	struct wordlist *collection = (struct wordlist*) malloc(sizeof(struct wordlist));
+	struct wordlist *collection = NULL;
 
 	if (removeDuplicates) {
 		collection = (ltype == phrasetype) ? uniquePhrases : uniqueWords;
-		
+
 		free(unsortedWords->words);
 		free(unsortedWords);
-		
-		for (i = 0; i < unsortedPhrases->numwords; ++i)
-			free(unsortedPhrases->words[i]);
-		
-		free(unsortedPhrases->words);
-		free(unsortedPhrases);
+
+		if (ltype == phrasetype) {
+			for (i = 0; i < unsortedPhrases->numwords; ++i)
+				free(unsortedPhrases->words[i]);
+
+			free(unsortedPhrases->words);
+			free(unsortedPhrases);
+		}
 	} else {
 		collection = (ltype == phrasetype) ? unsortedPhrases : unsortedWords;
-		
+
 		for (i = 0; i < uniqueWords->numwords; ++i)
 			free(uniqueWords->words[i]);
-		
+
 		free(uniqueWords->words);
 		free(uniqueWords);
-		
-		for (i = 0; i < uniquePhrases->numwords; ++i)
-			free(uniquePhrases->words[i]);
-		
-		free(uniquePhrases->words);
-		free(uniquePhrases);
+
+		if (ltype == phrasetype) {
+			for (i = 0; i < uniquePhrases->numwords; ++i)
+				free(uniquePhrases->words[i]);
+
+			free(uniquePhrases->words);
+			free(uniquePhrases);
+		}
 	}
+
+	free(FB->fbuffer);
+	free(FB);
 
 	return collection;
 }

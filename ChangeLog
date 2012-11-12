@@ -1,21 +1,39 @@
+2012-11-12	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: Proper memory optimization; pointers returned by
+	  stripNonAlpha() and stripMarkupTags() have malloc'd addresses
+	  that were not being freed properly.
+
+2012-11-10	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: stripMarkupTags() modified to explicitly exclude
+	  not only <script> tags but all content preceding </script>.
+
+2012-11-09	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: generateLists(): Optimized collection and
+	  sorting; phrases are only collected and sorted if "ltype" is
+	  explicitly set to "phraselist". This will ensure faster result
+	  searches for words only.
+
 2012-11-08	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
-	* processing.c: Added libcurl to allow for searching results on 
+	* processing.c: Added libcurl to allow for searching results on
 	  remote files, web pages, etc.
-	  
-	  Created stripMarkupTags() to strips markup language tags (e.g. 
+
+	  Created stripMarkupTags() to strips markup language tags (e.g.
 	  <body>, <div>, etc.) from hypertext documents.
 
-	* processing.c: When processing web pages with elaborate XHTML 
-	  markup design, an unexpected result causes malloc() in 
+	* processing.c: When processing web pages with elaborate XHTML
+	  markup design, an unexpected result causes malloc() in
 	  stripNonAlpha() and stripMarkupTags() to fail:
-	  
-	  malloc.c:3097: sYSMALLOc: Assertion `(old_top == (((mbinptr) 
-	  (((char *) &((av)->bins[((1) - 1) * 2])) - __builtin_offsetof 
-	  (struct malloc_chunk, fd)))) && old_size == 0) || ((unsigned 
-	  long) (old_size) >= (unsigned long)((((__builtin_offsetof 
-	  (struct malloc_chunk, fd_nextsize))+((2 * (sizeof(size_t))) - 
-	  1)) & ~((2 * (sizeof(size_t))) - 1))) && ((old_top)->size & 
+
+	  malloc.c:3097: sYSMALLOc: Assertion `(old_top == (((mbinptr)
+	  (((char *) &((av)->bins[((1) - 1) * 2])) - __builtin_offsetof
+	  (struct malloc_chunk, fd)))) && old_size == 0) || ((unsigned
+	  long) (old_size) >= (unsigned long)((((__builtin_offsetof
+	  (struct malloc_chunk, fd_nextsize))+((2 * (sizeof(size_t))) -
+	  1)) & ~((2 * (sizeof(size_t))) - 1))) && ((old_top)->size &
 	  0x1) && ((unsigned long)old_end & pagemask) == 0)' failed.
-	  
+
 	  Using realloc() instead alleviates this.

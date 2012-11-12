@@ -366,12 +366,12 @@ void displayUsage() {
 		"  -s | --search		 Optional: Text file (local or remote) in which to search for enciphered world or phrase.\n"
 		"  -p | --phrases		 Optional: To conduct phrase search, where each resulting phrase has num words.\n\n"
 		
-		"Usage: temurah [ -s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num]] -f | --forward-avgad Word | 'Phrase'\n"
-		"		        [ -s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num]] -r | --backward-avgad Word | 'Phrase'\n"
-		"		        [ -s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num]] -t | --atbash Word | 'Phrase'\n"
-		"		        [ -s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num]] -l | --albam Word | 'Phrase'\n"
-		"		        [ -s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num]] -b | --aikbekar Word | 'Phrase'\n"
-		"		        [ -s {FILE | URL} | --search={FILE | URL} [-p num | --phrases=num]] -a | --all Word | 'Phrase'\n"
+		"Usage: temurah [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -f | --forward-avgad Word | 'Phrase'\n"
+		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -r | --backward-avgad Word | 'Phrase'\n"
+		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -t | --atbash Word | 'Phrase'\n"
+		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -l | --albam Word | 'Phrase'\n"
+		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -b | --aikbekar Word | 'Phrase'\n"
+		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -a | --all Word | 'Phrase'\n"
 		"===============================================================\n\n");
 		exit(EXIT_FAILURE);	
 }
