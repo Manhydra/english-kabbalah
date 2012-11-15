@@ -1,5 +1,14 @@
 2012-11-12	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
+	* processing.c: More memory optimization; because
+	  stripNonAlpha() and stripMarkupTags() return malloc'd addresses,
+	  it's best to have pointers other than fb->fbuffer to handle
+	  their processed text streams, then strncpy'd the finished
+	  product to a freshly malloc'd fb->fbuffer. This helps to free
+	  (nearly) all malloc'd memory when the programs are about to end.
+
+2012-11-12	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
 	* processing.c: Proper memory optimization; pointers returned by
 	  stripNonAlpha() and stripMarkupTags() have malloc'd addresses
 	  that were not being freed properly.
