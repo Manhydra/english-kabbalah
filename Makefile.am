@@ -7,4 +7,5 @@ man_MANS = doc/eng-qbl.1 doc/gematria.1 doc/temurah.1 doc/notarikon.1
 EXTRA_DIST = sample-texts/bible-books.tar.gz \
 			 sample-texts/bible.txt.tar.gz \
 			 sample-texts/madd.txt \
-			 doc
+			 doc \
+			 win32

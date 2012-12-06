@@ -1,3 +1,11 @@
+0.1.2
+-----
+
+Repaired Defect in Remote File Processing
+
+- Repaired a defect which prevented the entire contents of a remote
+file from being retrieved, thus limiting search results.
+
 0.1.1
 -----
 

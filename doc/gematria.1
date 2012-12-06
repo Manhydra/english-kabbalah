@@ -1,44 +1,44 @@
-.TH "ENGLISH GEMATRIA" 1 "September 2012" "eng-qbl 0.1.0" "English Kabbalah"
+.TH "ENGLISH GEMATRIA" 1 "September 2012" "eng-qbl 0.1.2" "English Kabbalah"
 .SH NAME
 English Gematria \- Part of the English Kabbalah suite
 .SH SYNOPSIS
 .B gematria
-[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
-[\fB\-c\fR | \fB--count\fR]] 
+[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+[\fB\-c\fR | \fB--count\fR]]
 \fIWord\fR | \fI'Phrase'\fR
 .br
 .RS
-  [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
-[\fB\-c\fR | \fB--count\fR]] 
+  [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+[\fB\-c\fR | \fB--count\fR]]
 \fB\-n\fR | \fB--gemval\fR \fInumericvalue\fR
 .RE
 .SH DESCRIPTION
-Outputs an English Gematria value for an inputted word or phrase. Outputs a 
-lists of words or phrases from a given file, where the English Gematria 
-value of each word or phrase is equal to that of the inputted word 
+Outputs an English Gematria value for an inputted word or phrase. Outputs a
+lists of words or phrases from a given file, where the English Gematria
+value of each word or phrase is equal to that of the inputted word
 or phrase.
 .PP
 .SS Background
 .PP
-Gematria is a form of numerology in where the numeric value of words 
-or phrases, based on the sum of each letter's own value, were 
-compared to discover their relationship. The word "gematria" comes 
-from the Greek word "geometria" from which our English word 
-"geometry" is derived. Interesting to note, "Grammetria" would have 
-been more apt as it accurately describes this practice as measuring 
-the relationship between words (Gramma) rather than the measurement 
+Gematria is a form of numerology in where the numeric value of words
+or phrases, based on the sum of each letter's own value, were
+compared to discover their relationship. The word "gematria" comes
+from the Greek word "geometria" from which our English word
+"geometry" is derived. Interesting to note, "Grammetria" would have
+been more apt as it accurately describes this practice as measuring
+the relationship between words (Gramma) rather than the measurement
 of the world (Geo).
 .PP
-Ancient languages such as Phoenician, Greek, and Hebrew did not have 
-separate character symbols to represent numbers, and hence, used 
-their alphabet. As an example, based on the spelling using Hebrew 
-alphabets, the Hebrew word for the unmentionable name of "God 
-(IHVH)" is 26. In Hebrew mysticism, it is told that "God" is both 
-"one" and "love." Hebrew for "one" is "achd (echad)" which has the 
-value of 13. Hebrew for "Love" is "ahbh (aheva)" and is also 13. 
-From this, it can be concluded that "God" (26) is both "one" and 
+Ancient languages such as Phoenician, Greek, and Hebrew did not have
+separate character symbols to represent numbers, and hence, used
+their alphabet. As an example, based on the spelling using Hebrew
+alphabets, the Hebrew word for the unmentionable name of "God
+(IHVH)" is 26. In Hebrew mysticism, it is told that "God" is both
+"one" and "love." Hebrew for "one" is "achd (echad)" which has the
+value of 13. Hebrew for "Love" is "ahbh (aheva)" and is also 13.
+From this, it can be concluded that "God" (26) is both "one" and
 "love" (13 + 13).
 .SH OPTIONS
 .TP
@@ -51,15 +51,15 @@ Optional: To conduct phrase search, where each resulting phrase has \fInum\fR wo
 \fB-c\fR, \fB--count\fR
 Optional: Output the number of finds (words or phrases) only.
 .SH EXAMPLES
-The numeric values resulting from English Gematria is based on a 
-system of multiplying the number six(6) to each letter according to 
-their position in the alphabet. This system was proposed by J.R. 
-Church, a Baptist minister, to simulate the numbering system of the 
-Sumerian language. This is only significant because Church 
-discovered that the phrase, "Mark of Beast," equals 666 based on his 
+The numeric values resulting from English Gematria is based on a
+system of multiplying the number six(6) to each letter according to
+their position in the alphabet. This system was proposed by J.R.
+Church, a Baptist minister, to simulate the numbering system of the
+Sumerian language. This is only significant because Church
+discovered that the phrase, "Mark of Beast," equals 666 based on his
 studies of Revelation 13.
 .PP
-A simple and common way to use English Gematria is to pass a word or 
+A simple and common way to use English Gematria is to pass a word or
 phrase to retrieve its value:
 .PP
 .RS
@@ -74,8 +74,8 @@ Phrases should always be enclosed in single or double quotes:
 \fBgematria\fR "the star in the sky"
 .RE
 .PP
-The most useful method of English Gematria is to find words or 
-phrases of equal English Gematria value within local or remote text 
+The most useful method of English Gematria is to find words or
+phrases of equal English Gematria value within local or remote text
 files:
 .PP
 .RS
@@ -86,25 +86,25 @@ files:
 \fBgematria -s\fR http://www.example.com/dir/page 'the storm'
 .RE
 .PP
-A specified value can also be passed to find words or phrases of 
+A specified value can also be passed to find words or phrases of
 equal English Gematria value:
 .PP
 .RS
 \fBgematria -s\fR /path/to/textfile \fB-n\fR 86
 .RE
 .PP
-As a command-line application, English Gematria can be used in shell 
-scripting to yield complex results. As indicated on the relationship 
-between "God," "one," and "love," above, the combined values of both 
-"one" and "love" equals the value of "God." This alludes to the 
-notion that if the values of two or more words or phrases are 
-combined, they serve as probable properties of a word or phrase 
+As a command-line application, English Gematria can be used in shell
+scripting to yield complex results. As indicated on the relationship
+between "God," "one," and "love," above, the combined values of both
+"one" and "love" equals the value of "God." This alludes to the
+notion that if the values of two or more words or phrases are
+combined, they serve as probable properties of a word or phrase
 whose value equal that of the combined.
 .PP
-The English Gematria value for "Love" is 324. For "God" is 156. 
-Because the value of "Love" is greater than that of "God," we can 
-hypothesize that "God" is a property or aspect of "Love." In the 
-following example, we will attempt to find words whose English 
+The English Gematria value for "Love" is 324. For "God" is 156.
+Because the value of "Love" is greater than that of "God," we can
+hypothesize that "God" is a property or aspect of "Love." In the
+following example, we will attempt to find words whose English
 Gematria value is equal to the difference between "Love" and "God":
 .PP
 .RS
@@ -137,9 +137,9 @@ Ohad
 Belah
 .RE
 .PP
-From the result generated, one can take note of the word "is" which 
-aptly fits the context by saying, "God is Love." Also by taking 
-note of the word "man" we can surmise that the relationship between 
+From the result generated, one can take note of the word "is" which
+aptly fits the context by saying, "God is Love." Also by taking
+note of the word "man" we can surmise that the relationship between
 "God" and "man" is "Love."
 .SH BUGS
 Report technical problems using these programs to the author.

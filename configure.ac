@@ -3,7 +3,7 @@
 
 m4_define([engqbl_version_major], [0])
 m4_define([engqbl_version_minor], [1])
-m4_define([engqbl_version_build], [1])
+m4_define([engqbl_version_build], [2])
 m4_define([engqbl_version_suffix], [])
 m4_define([engqbl_version], [engqbl_version_major.engqbl_version_minor.engqbl_version_build])
 m4_define([engqbl_version_display], engqbl_version[]m4_ifdef([engqbl_version_suffix],[engqbl_version_suffix]))

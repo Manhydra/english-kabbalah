@@ -32,7 +32,7 @@ char *stripNonAlpha(char *w) {
 	int n = 0;
 	char *naTemp = NULL;
 
-	if (w[wl] == '\n') w[wl] = '\0';
+	if (w[wl] == '\n') w[wl--] = '\0';
 
 	if (! (naTemp = (char*) malloc(wl)) )
 		return NULL;
@@ -168,6 +168,7 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
  * @return size_t
  */
 static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data) {
+	size_t realsize = size * nmemb;
 	struct filebuffer *fb = (struct filebuffer*) data;
 
 	char *smt = stripMarkupTags((char*)contents);
@@ -175,16 +176,17 @@ static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data
 	size_t sna_size = strlen(sna);
 	free(smt);
 
-	if (! (fb->fbuffer = (char*) malloc(sizeof(char) * sna_size)) ) {
+	if (! (fb->fbuffer = (char*) realloc(fb->fbuffer, fb->fbsize + sna_size + 1)) ) {
 		fprintf(stderr, "Can't allocate memory for buffer. Returning 0 bytes.\n");
 		return 0;
 	}
 
-	strncpy(fb->fbuffer, sna, sna_size);
-	fb->fbsize = sna_size;
+	strncpy(&(fb->fbuffer[fb->fbsize]), sna, sna_size);
+	fb->fbsize += sna_size;
+	fb->fbuffer[fb->fbsize] = '\0';
 	free(sna);
 
-	return size * sna_size;
+	return realsize;
 }
 #endif
 
@@ -198,8 +200,11 @@ struct filebuffer *proccessFile(const char *pFile) {
 	FILE *srchFile;
 #ifdef HAVE_CURL_CURL_H
 	CURL *webRes;
-	if (strncmpi(pFile, "http", 4) == 0) {
+	if (strncmpi(pFile, "https:", 6) == 0 ||
+	    strncmpi(pFile, "http:", 5) == 0) {
 		fb = (struct filebuffer*) malloc(sizeof(struct filebuffer));
+		fb->fbuffer = (char*) malloc(1);
+		fb->fbsize = 0;
 		curl_global_init(CURL_GLOBAL_ALL);
 		webRes = curl_easy_init();
 		curl_easy_setopt(webRes, CURLOPT_URL, pFile);

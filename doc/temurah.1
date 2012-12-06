@@ -1,31 +1,31 @@
-.TH "ENGLISH TEMURAH" 1 "September 2012" "eng-qbl 0.1.0" "English Kabbalah"
+.TH "ENGLISH TEMURAH" 1 "September 2012" "eng-qbl 0.1.2" "English Kabbalah"
 .SH NAME
 English Temurah \- Part of the English Kabbalah suite
 .SH SYNOPSIS
 .B temurah
-[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
+[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 \fB\-a\fR | \fB--all\fR \fIWord\fR | \fI'Phrase'\fR
 .br
 .RS
- [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 \fB\-f\fR | \fB--forward-avgad\fR \fIWord\fR | \fI'Phrase'\fR
 .br
- [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 \fB\-r\fR | \fB--backward-avgad\fR \fIWord\fR | \fI'Phrase'\fR
 .br
- [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 \fB\-t\fR | \fB--atbash\fR \fIWord\fR | \fI'Phrase'\fR
 .br
- [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 \fB\-l\fR | \fB--albam\fR \fIWord\fR | \fI'Phrase'\fR
 .br
- [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}] 
-[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR] 
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 \fB\-b\fR | \fB--aikbekar\fR \fIWord\fR | \fI'Phrase'\fR
 .RE
 .SH DESCRIPTION
@@ -41,15 +41,15 @@ Ciphers an inputted word or phrase using four key methods:
 .PP
 Outputs the number of times an enciphered inputted word or phrase is found within a given file for each method used.
 .PP
-Letters are categorized into two groups: consonants (B-Z) and 
-vowels (A-Y), each group of two classes: uppercase and lowercase. Thus, 
+Letters are categorized into two groups: consonants (B-Z) and
+vowels (A-Y), each group of two classes: uppercase and lowercase. Thus,
 letters are replaced with those in their respective group and class.
 .PP
 .SS Background
 .PP
-Temurah is a ciphering system which transposes the position of 
-letters. Its primary usage is in the interpretation of holy texts 
-(also known as exegesis) in the belief that deeper spiritual meaning 
+Temurah is a ciphering system which transposes the position of
+letters. Its primary usage is in the interpretation of holy texts
+(also known as exegesis) in the belief that deeper spiritual meaning
 of words can be derived.
 .SH OPTIONS
 .TP
@@ -83,8 +83,8 @@ Optional: Text file in which to search for enciphered world or phrase.
 \fB-p\fR, \fB--phrases\fR
 Optional: To conduct phrase search, where each resulting phrase has \fInum\fR words.
 .SH EXAMPLES
-As a command-line application, English Temurah can be used in shell 
-scripting to yield complex results. An ouput from one instance of 
+As a command-line application, English Temurah can be used in shell
+scripting to yield complex results. An ouput from one instance of
 English Temurah can piped to the input of another:
 .PP
 .RS
@@ -93,26 +93,26 @@ English Temurah can piped to the input of another:
 Site
 .RE
 .PP
-One of the difficulties in the Temurah system is the generation of 
-meaningful results. Because this ciphering system was created at a 
-time when languages (especially those that were probably still 
-developing) seldom used vowels in their phonetic spelling, 
-shifting consonants usually could have easily enabled the creation 
-of new words with different applications while maintaining 
-comparable properties with the original word, as the pronounciation 
-of vowel sounds within such words were implied. However, this is 
-difficult with a language such as English which greatly relies on 
+One of the difficulties in the Temurah system is the generation of
+meaningful results. Because this ciphering system was created at a
+time when languages (especially those that were probably still
+developing) seldom used vowels in their phonetic spelling,
+shifting consonants usually could have easily enabled the creation
+of new words with different applications while maintaining
+comparable properties with the original word, as the pronounciation
+of vowel sounds within such words were implied. However, this is
+difficult with a language such as English which greatly relies on
 consonant-vowel pairing, at the least, to produce pronounceable words.
 .PP
-The uniqueness of this English Temurah program is the grouping of 
-consonants and vowels, allowing letters to be transposed only with 
-those within their group (i.e., consonant for consonants, vowels for 
-vowels). This increases the chance of the production of meaningful 
+The uniqueness of this English Temurah program is the grouping of
+consonants and vowels, allowing letters to be transposed only with
+those within their group (i.e., consonant for consonants, vowels for
+vowels). This increases the chance of the production of meaningful
 results.
 .PP
-An example of a meaningful, yet interesting, result using this 
-system is a discovery by this author of a possible relationship 
-between an Akkadian king, Sargon, and a Hurrian sky god, Teshup, via 
+An example of a meaningful, yet interesting, result using this
+system is a discovery by this author of a possible relationship
+between an Akkadian king, Sargon, and a Hurrian sky god, Teshup, via
 Forward-shift Avgad:
 .PP
 .RS
@@ -121,9 +121,9 @@ Forward-shift Avgad:
 Teshup
 .RE
 .PP
-The use of Forward-shift Avgad on "Sargon" generates "Teshup," the Hurrian 
-God of the Sky and storm, a probable connection to Sargon in "The 
-Epic of the King of the Battle," which depicts Sargon advancing deep 
+The use of Forward-shift Avgad on "Sargon" generates "Teshup," the Hurrian
+God of the Sky and storm, a probable connection to Sargon in "The
+Epic of the King of the Battle," which depicts Sargon advancing deep
 into the heart of Anatolia, a region where the Hurrians lived.
 .SH BUGS
 Report technical problems using these programs to the author.
