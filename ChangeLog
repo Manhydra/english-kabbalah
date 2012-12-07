@@ -1,5 +1,14 @@
 2012-12-06	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
+	* processing.c: Further libcurl Conditioning; Added HAVE_LIBCURL
+	macro after HAVE_CURL_CURL_H to ensure libcurl library is
+	present along with curl/curl.h header. This is especially needed
+	for building on Win32 systems with MinGW as the current
+	construct of configure.ac only checks for the dynamically linked
+	(shared) version of libcurl.
+
+2012-12-06	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
 	* processing.c: Repaired Defect in Remote File Processing;
 	Because curlCallback() returned size of post-processed content,
 	libcurl was not able to properly iterate through the content,

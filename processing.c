@@ -160,6 +160,7 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
 }
 
 #ifdef HAVE_CURL_CURL_H
+#ifdef HAVE_LIBCURL
 /*
  * Curl callback function for processing remote files
  *
@@ -188,7 +189,8 @@ static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data
 
 	return realsize;
 }
-#endif
+#endif /* HAVE_LIBCURL */
+#endif /* HAVE_CURL_CURL_H */
 
 /*
  * name: proccessFile
@@ -199,6 +201,7 @@ struct filebuffer *proccessFile(const char *pFile) {
 	struct filebuffer *fb = NULL;
 	FILE *srchFile;
 #ifdef HAVE_CURL_CURL_H
+#ifdef HAVE_LIBCURL
 	CURL *webRes;
 	if (strncmpi(pFile, "https:", 6) == 0 ||
 	    strncmpi(pFile, "http:", 5) == 0) {
@@ -215,7 +218,8 @@ struct filebuffer *proccessFile(const char *pFile) {
 		curl_easy_cleanup(webRes);
 		curl_global_cleanup();
 	} else
-#endif
+#endif /* HAVE_LIBCURL */
+#endif /* HAVE_CURL_CURL_H */
 	if ((srchFile = fopen(pFile, "r"))) {
 		fb = (struct filebuffer*) malloc(sizeof(struct filebuffer));
 		char *tmpbuff = NULL;
