@@ -21,16 +21,35 @@ AC_PROG_CC
 # Check for host.
 AC_CANONICAL_HOST
 
+dnl  no=do not compile with curl,  yes=compile with curl,  *=error
+AC_ARG_ENABLE(curl,
+[  --enable-curl           compile the server (default=no)],
+[case "${enableval}" in
+  yes) curl=yes; AC_CHECK_HEADERS([curl/curl.h]) ;;
+  no)  curl=no ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-curl) ;;
+esac], [curl=no])
+
 # Checks for libraries.
-case $host_os in
-	dnl WIN32
-	*mingw* ) AC_CHECK_LIB([curldll], [curl_global_init]) ;;
-	dnl POSIX
-		  * ) AC_CHECK_LIB([curl], [curl_global_init]) ;;
-esac
+if test $curl = "yes" ; then
+	case $host_os in
+		dnl WIN32
+		*mingw* )
+			AC_CHECK_LIB([curldll], [curl_global_init], [], [
+				AC_MSG_ERROR([Either curl_global_init is not found in libcurldll or libcurldll is not installed. Install libcurldll or set --enable-curl=no.])
+			])
+			;;
+		dnl POSIX
+			  * )
+			AC_CHECK_LIB([curl], [curl_global_init], [], [
+				AC_MSG_ERROR([Either curl_global_init is not found in libcurl or libcurl is not installed. Install libcurl or set --enable-curl=no.])
+			])
+			;;
+	esac
+fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h string.h unistd.h getopt.h curl/curl.h])
+AC_CHECK_HEADERS([stdlib.h string.h unistd.h getopt.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
