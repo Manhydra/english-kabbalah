@@ -8,17 +8,26 @@ m4_define([engqbl_version_suffix], [])
 m4_define([engqbl_version], [engqbl_version_major.engqbl_version_minor.engqbl_version_build])
 m4_define([engqbl_version_display], engqbl_version[]m4_ifdef([engqbl_version_suffix],[engqbl_version_suffix]))
 
-AC_INIT([English Kabbalah], [engqbl_version_display], [marc.sylvestre@manhydra.com], [eng-qbl])
+AC_INIT([English Kabbalah], [engqbl_version_display], [marc.sylvestre@manhydra.com], [eng-qbl], [http://www.manhydra.com/projects/english-kabbalah])
 AM_INIT_AUTOMAKE([-Wall])
 AC_PREREQ([2.67])
+AC_LANG([C])
 AC_CONFIG_SRCDIR([processing.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CC
 
+# Check for host.
+AC_CANONICAL_HOST
+
 # Checks for libraries.
-AC_CHECK_LIB([curl], [curl_easy_init])
+case $host_os in
+	dnl WIN32
+	*mingw* ) AC_CHECK_LIB([curldll], [curl_global_init]) ;;
+	dnl POSIX
+		  * ) AC_CHECK_LIB([curl], [curl_global_init]) ;;
+esac
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h unistd.h getopt.h curl/curl.h])

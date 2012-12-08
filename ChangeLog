@@ -1,3 +1,14 @@
+2012-12-07	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* configure.ac: Canonical Host Check; Checks for host for which
+	package is being built. Win32 hosts (MinGW) will check for
+	libcurldll. All other POSIX hosts will check for libcurl.
+
+	* processing.c: Using HAVE_LIBCURLDLL Macro; In connection with
+	checking for libcurldll on MinGW hosts, assurance is needed to
+	determine not only if cURL headers are available, but if either
+	libcurl or libcurldll is present as well.
+
 2012-12-06	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
 	* processing.c: Further libcurl Conditioning; Added HAVE_LIBCURL

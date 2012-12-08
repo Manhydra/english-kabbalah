@@ -159,8 +159,7 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
 	return c1 - c2;
 }
 
-#ifdef HAVE_CURL_CURL_H
-#ifdef HAVE_LIBCURL
+#if defined(HAVE_CURL_CURL_H) && (defined(HAVE_LIBCURL) || defined(HAVE_LIBCURLDLL))
 /*
  * Curl callback function for processing remote files
  *
@@ -189,8 +188,7 @@ static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data
 
 	return realsize;
 }
-#endif /* HAVE_LIBCURL */
-#endif /* HAVE_CURL_CURL_H */
+#endif
 
 /*
  * name: proccessFile
@@ -200,8 +198,7 @@ static size_t curlCallback(void *contents, size_t size, size_t nmemb, void *data
 struct filebuffer *proccessFile(const char *pFile) {
 	struct filebuffer *fb = NULL;
 	FILE *srchFile;
-#ifdef HAVE_CURL_CURL_H
-#ifdef HAVE_LIBCURL
+#if defined(HAVE_CURL_CURL_H) && (defined(HAVE_LIBCURL) || defined(HAVE_LIBCURLDLL))
 	CURL *webRes;
 	if (strncmpi(pFile, "https:", 6) == 0 ||
 	    strncmpi(pFile, "http:", 5) == 0) {
@@ -218,8 +215,7 @@ struct filebuffer *proccessFile(const char *pFile) {
 		curl_easy_cleanup(webRes);
 		curl_global_cleanup();
 	} else
-#endif /* HAVE_LIBCURL */
-#endif /* HAVE_CURL_CURL_H */
+#endif
 	if ((srchFile = fopen(pFile, "r"))) {
 		fb = (struct filebuffer*) malloc(sizeof(struct filebuffer));
 		char *tmpbuff = NULL;
@@ -240,8 +236,11 @@ struct filebuffer *proccessFile(const char *pFile) {
 
 		fclose(srchFile);
 
-		char *snabuff = stripNonAlpha(tmpbuff);
-		size_t sna_size = strlen(snabuff);
+		char *smt = stripMarkupTags(tmpbuff);
+		char *sna = stripNonAlpha(smt);
+		size_t sna_size = strlen(sna);
+
+		free(smt);
 		free(tmpbuff);
 
 		if (! (fb->fbuffer = (char*) malloc(sizeof(char) * sna_size)) ) {
@@ -249,10 +248,10 @@ struct filebuffer *proccessFile(const char *pFile) {
 			return NULL;
 		}
 
-	  	strncpy(fb->fbuffer, snabuff, sna_size);
+	  	strncpy(fb->fbuffer, sna, sna_size);
 	  	fb->fbsize = sna_size;
 
-	  	free(snabuff);
+	  	free(sna);
 	}
 
   	return fb;
