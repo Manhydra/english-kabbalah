@@ -138,7 +138,8 @@ int main(int argc, char **argv) {
 
 		if (numWordsInPhrase < 2) numWordsInPhrase = 2;
 		if (! (searchList = generateLists(searchFile, ltype, numWordsInPhrase, 1)) ) {
-			fprintf(stderr, "Unable to generate search list. %s is either corrupted or not provided.\n", searchFile);
+			fprintf(stderr, "Unable to generate search list. %s is either corrupted or cannot be accessed at this time.\n"
+							"If %s is a remote file, you'll need to insall libcurl and recompile %s to access it. Consult the README file for details.\n", searchFile, searchFile, PACKAGE);
 			exit(EXIT_FAILURE);
 		}
 

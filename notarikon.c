@@ -1,18 +1,18 @@
 /*
  *      notarikon.c
- *      
+ *
  *      Copyright 2012 Marc Sylvestre <marc.sylvestre@manhydra.com>
- *      
+ *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation; either version 3 of the License, or
  *      (at your option) any later version.
- *      
+ *
  *      This program is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
  *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *      GNU General Public License for more details.
- *      
+ *
  *      You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,14 +26,14 @@ void displayUsage(const char *progname) {
 	fprintf(stderr, "\n===============================================================\n"
 		"English Notarikon\n"
 		"Copyright (C) 2012 Marc Sylvestre <marc.sylvestre@manhydra.com>\n\n"
-		
+
 		"This program comes with ABSOLUTELY NO WARRANTY.\n"
 		"This is free software, and you are welcome to redistribute it\n"
 		"under certain conditions.\n\n"
-		
+
 		"Usage: %s {FILE|URL} acronym\n"
 		"===============================================================\n\n", progname);
-		exit(EXIT_FAILURE);	
+		exit(EXIT_FAILURE);
 }
 
 int main(int argc, char **argv) {
@@ -42,17 +42,18 @@ int main(int argc, char **argv) {
 	int numWordsInPhrase = 2;
 	size_t lng;
 	int found = 0, wIndex = 0, listIndex = 0;
-	
+
 	if (argc < 2) displayUsage(argv[0]);
-	
+
 	if (argc < 3) fgets(acronym, MAX_LENGTH, stdin);
 	else strncpy(acronym, argv[2], MAX_LENGTH);
-	
+
 	if (! (searchList = generateLists(argv[1], wordtype, numWordsInPhrase, 0)) ) {
-		fprintf(stderr, "Unable to generate search list. %s is either corrupted or not provided.\n", argv[1]);
+		fprintf(stderr, "Unable to generate search list. %s is either corrupted or cannot be accessed at this time.\n"
+						"If %s is a remote file, you'll need to insall libcurl and recompile %s to access it. Consult the README file for details.\n", argv[1], argv[1], PACKAGE);
 		exit(EXIT_FAILURE);
 	}
-	
+
 	lng = strlen(acronym);
 	while (wIndex < lng && listIndex < searchList->numwords) {
 		if ( (acronym[wIndex] >= 'A' && acronym[wIndex] <= 'Z') || (acronym[wIndex] >= 'a' && acronym[wIndex] <= 'z') ) {
@@ -77,9 +78,9 @@ int main(int argc, char **argv) {
 			listIndex++;
 		}
 	}
-	
+
 	free(searchList->words);
 	free(searchList);
-	
+
 	exit(EXIT_SUCCESS);
 }

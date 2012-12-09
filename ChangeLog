@@ -1,3 +1,19 @@
+2012-12-09	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* configure.ac: Optional Feature Modified; Replaced
+	--enable-curl with --with-curl as the former pertains to the use
+	of an optional feature within the code whereas the latter
+	pertains to the use of an optional package external of the
+	software.
+
+	* processing.c: Checking for Uppercase <SCRIPT> Tag; Added
+	charToLowerCase() in case stripMarkupTags() finds <SCRIPT> tags
+	in uppercase.
+
+	* gematria.c, temurah.c, notarikon.c: Modified generateLists()
+	Warning; Explicitly warns, whenever generateLists() is called,
+	that if a given file is remote, to install libcurl.
+
 2012-12-08	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
 	* configure.ac: Optional Feature Added; Added --enable-curl

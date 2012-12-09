@@ -65,21 +65,21 @@ char *stripMarkupTags(char *w) {
 
 	for (int i = 0; i < wl; ++i) {
 		if (w[i] == '<') {
-			if (w[i+1] == 's' &&
-				w[i+2] == 'c' &&
-				w[i+3] == 'r' &&
-				w[i+4] == 'i' &&
-				w[i+5] == 'p' &&
-				w[i+6] == 't') {
+			if (w[i+1] == charToLowerCase('s') &&
+				w[i+2] == charToLowerCase('c') &&
+				w[i+3] == charToLowerCase('r') &&
+				w[i+4] == charToLowerCase('i') &&
+				w[i+5] == charToLowerCase('p') &&
+				w[i+6] == charToLowerCase('t')) {
 				i += 7;
 				while (w[++i] != '<' && w[i] != '\0') continue;
 				if (w[i+1] == '/' &&
-					w[i+2] == 's' &&
-					w[i+3] == 'c' &&
-					w[i+4] == 'r' &&
-					w[i+5] == 'i' &&
-					w[i+6] == 'p' &&
-					w[i+7] == 't') i += 7;
+					w[i+2] == charToLowerCase('s') &&
+					w[i+3] == charToLowerCase('c') &&
+					w[i+4] == charToLowerCase('r') &&
+					w[i+5] == charToLowerCase('i') &&
+					w[i+6] == charToLowerCase('p') &&
+					w[i+7] == charToLowerCase('t')) i += 7;
 			}
 			while (w[++i] != '>' && w[i] != '\0') continue;
 			if (w[++i] != '<' && w[i] != '\0') mtTemp[n++] = w[i];

@@ -22,13 +22,14 @@ AC_PROG_CC
 AC_CANONICAL_HOST
 
 dnl  no=do not compile with curl,  yes=compile with curl,  *=error
-AC_ARG_ENABLE(curl,
-[  --enable-curl           compile the server (default=no)],
-[case "${enableval}" in
-  yes) curl=yes; AC_CHECK_HEADERS([curl/curl.h]) ;;
-  no)  curl=no ;;
-  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-curl) ;;
-esac], [curl=no])
+AC_ARG_WITH(curl,
+	[  --with-curl             compile with curl to enable remote file access (default=no)],
+	[case "${withval}" in
+		yes) curl=yes; AC_CHECK_HEADERS([curl/curl.h]) ;;
+		no)  curl=no ;;
+		*)   AC_MSG_ERROR(bad value ${withval} for --with-curl) ;;
+	esac], [curl=no]
+)
 
 # Checks for libraries.
 if test $curl = "yes" ; then
@@ -36,13 +37,13 @@ if test $curl = "yes" ; then
 		dnl WIN32
 		*mingw* )
 			AC_CHECK_LIB([curldll], [curl_global_init], [], [
-				AC_MSG_ERROR([Either curl_global_init is not found in libcurldll or libcurldll is not installed. Install libcurldll or set --enable-curl=no.])
+				AC_MSG_ERROR([Either curl_global_init is not found in libcurldll or libcurldll is not installed. Install libcurldll or set --with-curl=no.])
 			])
 			;;
 		dnl POSIX
 			  * )
 			AC_CHECK_LIB([curl], [curl_global_init], [], [
-				AC_MSG_ERROR([Either curl_global_init is not found in libcurl or libcurl is not installed. Install libcurl or set --enable-curl=no.])
+				AC_MSG_ERROR([Either curl_global_init is not found in libcurl or libcurl is not installed. Install libcurl or set --with-curl=no.])
 			])
 			;;
 	esac
