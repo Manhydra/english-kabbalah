@@ -5,7 +5,7 @@ Copyright (C) 2012 Marc Sylvestre <marc.sylvestre@manhydra.com>
 
 English Kabbalah is a collection of command-line applications that
 perform various coding/ciphering tasks, along with searching a given
-file for the results thereof.
+file for those results.
 
 - English Gematria
   Outputs a gematria value for an inputted word or phrase.
@@ -81,7 +81,7 @@ Library required for remote file access:
 
 Building with libcurl is disabled by default. To build with libcurl:
 
-	./configure --enable-curl=yes
+	./configure --with-curl=yes
 
 For information on installation, consult the INSTALL file.
 
@@ -90,4 +90,4 @@ Usages
 
 English Kabbalah is a suite of command-line programs designed to
 output results within a text shell. Examples of usage are provided
-by consulting each program's manpage.
+by consulting each program's respective manpage.
