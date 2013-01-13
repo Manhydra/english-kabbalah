@@ -65,21 +65,21 @@ char *stripMarkupTags(char *w) {
 
 	for (int i = 0; i < wl; ++i) {
 		if (w[i] == '<') {
-			if (w[i+1] == charToLowerCase('s') &&
-				w[i+2] == charToLowerCase('c') &&
-				w[i+3] == charToLowerCase('r') &&
-				w[i+4] == charToLowerCase('i') &&
-				w[i+5] == charToLowerCase('p') &&
-				w[i+6] == charToLowerCase('t')) {
+			if (charToLowerCase(w[i+1]) == 's' &&
+				charToLowerCase(w[i+2]) == 'c' &&
+				charToLowerCase(w[i+3]) == 'r' &&
+				charToLowerCase(w[i+4]) == 'i' &&
+				charToLowerCase(w[i+5]) == 'p' &&
+				charToLowerCase(w[i+6]) == 't') {
 				i += 7;
 				while (w[++i] != '<' && w[i] != '\0') continue;
 				if (w[i+1] == '/' &&
-					w[i+2] == charToLowerCase('s') &&
-					w[i+3] == charToLowerCase('c') &&
-					w[i+4] == charToLowerCase('r') &&
-					w[i+5] == charToLowerCase('i') &&
-					w[i+6] == charToLowerCase('p') &&
-					w[i+7] == charToLowerCase('t')) i += 7;
+					charToLowerCase(w[i+2]) == 's' &&
+					charToLowerCase(w[i+3]) == 'c' &&
+					charToLowerCase(w[i+4]) == 'r' &&
+					charToLowerCase(w[i+5]) == 'i' &&
+					charToLowerCase(w[i+6]) == 'p' &&
+					charToLowerCase(w[i+7]) == 't') i += 7;
 			}
 			while (w[++i] != '>' && w[i] != '\0') continue;
 			if (w[++i] != '<' && w[i] != '\0') mtTemp[n++] = w[i];
@@ -97,8 +97,7 @@ char *stripMarkupTags(char *w) {
  * @return char
  */
 char charToLowerCase(char c) {
-	if (c < 96) c += 32;
-	return c;
+	return (c < 96) ? c + 32 : c;
 }
 
 /*
@@ -283,9 +282,13 @@ struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phras
 	if (! (unsortedWords->words = (char**) calloc(FB->fbsize/sizeof(char*), sizeof(char*))) )
 		return NULL;
 
-	unsortedWords->words[0] = strtok(FB->fbuffer, " ");
-	for (unsortedWords->numwords = 0, i = 1; i < FB->fbsize; ++i) {
-		if ( !(unsortedWords->words[i] = strtok(NULL, " ")) ) break;
+	char *tok = strtok(FB->fbuffer, " ");
+	unsortedWords->words[0] = strdup(tok);
+	unsortedWords->numwords = 1;
+
+	for (i = 1; i < FB->fbsize; ++i) {
+		if ( !(tok = strtok(NULL, " ")) ) break;
+		unsortedWords->words[i] = strdup(tok);
 		unsortedWords->numwords++;
 	}
 
@@ -326,23 +329,25 @@ struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phras
 	/* ********** End Lists Collection ********** */
 
 	/* ********** Begin Lists Sort ********** */
-	if (! (uniqueWords = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-		return NULL;
+	if (ltype == wordtype) {
+		if (! (uniqueWords = (struct wordlist*) malloc(sizeof(struct wordlist))) )
+			return NULL;
 
-	if (! (uniqueWords->words = (char**) calloc(unsortedWords->numwords, sizeof(char*))) )
-		return NULL;
+		if (! (uniqueWords->words = (char**) calloc(unsortedWords->numwords, sizeof(char*))) )
+			return NULL;
 
-	for (uniqueWords->numwords = 0, i = 0; i < unsortedWords->numwords; ++i) {
-		found = 0;
-		for (j = 0; j < unsortedWords->numwords; ++j) {
-			if (uniqueWords->words[j] == NULL) break;
-			if (strncmpi(uniqueWords->words[j], unsortedWords->words[i], strlen(unsortedWords->words[i])) == 0) {
-				found = 1; break;
+		for (uniqueWords->numwords = 0, i = 0; i < unsortedWords->numwords; ++i) {
+			found = 0;
+			for (j = 0; j < unsortedWords->numwords; ++j) {
+				if (uniqueWords->words[j] == NULL) break;
+				if (strncmpi(uniqueWords->words[j], unsortedWords->words[i], strlen(unsortedWords->words[i])) == 0) {
+					found = 1; break;
+				}
 			}
-		}
-		if (!found) {
-			uniqueWords->words[j] = strdup(unsortedWords->words[i]);
-			uniqueWords->numwords++;
+			if (!found) {
+				uniqueWords->words[j] = strdup(unsortedWords->words[i]);
+				uniqueWords->numwords++;
+			}
 		}
 	}
 
@@ -374,6 +379,9 @@ struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phras
 	if (removeDuplicates) {
 		collection = (ltype == phrasetype) ? uniquePhrases : uniqueWords;
 
+		for (i = 0; i < unsortedWords->numwords; ++i)
+			free(unsortedWords->words[i]);
+
 		free(unsortedWords->words);
 		free(unsortedWords);
 
@@ -387,11 +395,13 @@ struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phras
 	} else {
 		collection = (ltype == phrasetype) ? unsortedPhrases : unsortedWords;
 
-		for (i = 0; i < uniqueWords->numwords; ++i)
-			free(uniqueWords->words[i]);
+		if (ltype == wordtype) {
+			for (i = 0; i < uniqueWords->numwords; ++i)
+				free(uniqueWords->words[i]);
 
-		free(uniqueWords->words);
-		free(uniqueWords);
+			free(uniqueWords->words);
+			free(uniqueWords);
+		}
 
 		if (ltype == phrasetype) {
 			for (i = 0; i < uniquePhrases->numwords; ++i)

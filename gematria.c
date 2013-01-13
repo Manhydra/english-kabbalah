@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
 
 	if (theValue < 0) theValue *= -1;
 
-	if (!valueFlag) printf("%d\n", theValue);
+	if (!valueFlag && !searchFlag) printf("%d\n", theValue);
 
 	if (searchFlag) {
 		struct wordlist *searchList = NULL;

@@ -1,3 +1,19 @@
+2013-01-03	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: Dynamic Allocation of Unsorted Words; Tokens
+	from file buffer were stored to list of unsorted words on the
+	stack, causing buffer overflow when accessed repeatedly. Tokens
+	are now passed to strdup to be allocated on the heap.
+
+2013-01-01	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* gematria.c: Minor Modification of Search Display; Prints
+	theValue only when valueFlag and searchFlag are false (0).
+
+	* processing.c: Modified Uppercase SCRIPT Tag Checking; Used
+	charToLowerCase() incorrectly on literal characters. Should be
+	used on characters of inputted string.
+
 2012-12-09	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
 	* configure.ac: Optional Feature Modified; Replaced
