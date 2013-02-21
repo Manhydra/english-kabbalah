@@ -1,3 +1,36 @@
+2013-02-18	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: generateWordList and generateWordListFromFile;
+	generateWordList has been modified to grow an existing list of
+	words from a given string each time it is used. generateWordList
+	serves as an abstracton for generateWordListFromFile for a given
+	filename. generateWordListFromFile can be called multiple times
+	for every file provided.
+
+2013-02-16  Marc Sylvestre  <marc.sylvestre@manhydra.com>
+
+	* processing.c: New Wordlist Generation Functions; Created new
+	functions (generateUniqueWordList, generatePhraseList,
+	generateUniquePhraseList, clearWordList) for better efficiency
+	of accessing and handling wordlists. generateLists has been
+	renamed generateWordList to create raw, unsorted list of words
+	to be used by the new functions.
+
+2013-02-04  Marc Sylvestre  <marc.sylvestre@manhydra.com>
+
+	* gematria.c, temurah.c, notarikon.c: Object Code Utility; files
+	are now used only as object code modules where their execution
+	are now performed by eq-gematria.c, eq-temurah.c, and
+	eq-notarikon.c respectively.
+
+
+2013-01-20	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: Replaced charToLowerCase() to tolower();
+	Switched from using charToLowerCase() to tolower(), frankly
+	because this functionality exists within ctype.h of the Standard
+	Library :P
+
 2013-01-03	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
 	* processing.c: Dynamic Allocation of Unsorted Words; Tokens

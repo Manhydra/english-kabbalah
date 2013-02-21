@@ -65,21 +65,21 @@ char *stripMarkupTags(char *w) {
 
 	for (int i = 0; i < wl; ++i) {
 		if (w[i] == '<') {
-			if (charToLowerCase(w[i+1]) == 's' &&
-				charToLowerCase(w[i+2]) == 'c' &&
-				charToLowerCase(w[i+3]) == 'r' &&
-				charToLowerCase(w[i+4]) == 'i' &&
-				charToLowerCase(w[i+5]) == 'p' &&
-				charToLowerCase(w[i+6]) == 't') {
+			if (tolower(w[i+1]) == 's' &&
+				tolower(w[i+2]) == 'c' &&
+				tolower(w[i+3]) == 'r' &&
+				tolower(w[i+4]) == 'i' &&
+				tolower(w[i+5]) == 'p' &&
+				tolower(w[i+6]) == 't') {
 				i += 7;
 				while (w[++i] != '<' && w[i] != '\0') continue;
 				if (w[i+1] == '/' &&
-					charToLowerCase(w[i+2]) == 's' &&
-					charToLowerCase(w[i+3]) == 'c' &&
-					charToLowerCase(w[i+4]) == 'r' &&
-					charToLowerCase(w[i+5]) == 'i' &&
-					charToLowerCase(w[i+6]) == 'p' &&
-					charToLowerCase(w[i+7]) == 't') i += 7;
+					tolower(w[i+2]) == 's' &&
+					tolower(w[i+3]) == 'c' &&
+					tolower(w[i+4]) == 'r' &&
+					tolower(w[i+5]) == 'i' &&
+					tolower(w[i+6]) == 'p' &&
+					tolower(w[i+7]) == 't') i += 7;
 			}
 			while (w[++i] != '>' && w[i] != '\0') continue;
 			if (w[++i] != '<' && w[i] != '\0') mtTemp[n++] = w[i];
@@ -89,29 +89,6 @@ char *stripMarkupTags(char *w) {
 	mtTemp[n] = '\0';
 
 	return mtTemp;
-}
-
-/*
- * name: charToLowerCase
- * @param char
- * @return char
- */
-char charToLowerCase(char c) {
-	return (c < 96) ? c + 32 : c;
-}
-
-/*
- * name: strToLowerCase
- * @param string
- * @return string
- */
-char *strToLowerCase(char *word) {
-	int lng = strlen(word);
-
-	for (int i = 0; i < lng; ++i)
-		word[i] = charToLowerCase(word[i]);
-
-	return word;
 }
 
 /*
@@ -127,20 +104,20 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
 	if (n >= 4) {
 		size_t n4 = n >> 2;
 		do {
-			c1 = (unsigned char) charToLowerCase(*s1++);
-			c2 = (unsigned char) charToLowerCase(*s2++);
+			c1 = (unsigned char) tolower(*s1++);
+			c2 = (unsigned char) tolower(*s2++);
 			if (c1 == '\0' || c1 != c2)
 				return c1 - c2;
-			c1 = (unsigned char) charToLowerCase(*s1++);
-			c2 = (unsigned char) charToLowerCase(*s2++);
+			c1 = (unsigned char) tolower(*s1++);
+			c2 = (unsigned char) tolower(*s2++);
 			if (c1 == '\0' || c1 != c2)
 				return c1 - c2;
-			c1 = (unsigned char) charToLowerCase(*s1++);
-			c2 = (unsigned char) charToLowerCase(*s2++);
+			c1 = (unsigned char) tolower(*s1++);
+			c2 = (unsigned char) tolower(*s2++);
 			if (c1 == '\0' || c1 != c2)
 				return c1 - c2;
-			c1 = (unsigned char) charToLowerCase(*s1++);
-			c2 = (unsigned char) charToLowerCase(*s2++);
+			c1 = (unsigned char) tolower(*s1++);
+			c2 = (unsigned char) tolower(*s2++);
 			if (c1 == '\0' || c1 != c2)
 				return c1 - c2;
 		} while (--n4 > 0);
@@ -148,8 +125,8 @@ int strncmpi (const char *s1, const char *s2, size_t n) {
     }
 
 	while (n > 0) {
-		c1 = (unsigned char) charToLowerCase(*s1++);
-		c2 = (unsigned char) charToLowerCase(*s2++);
+		c1 = (unsigned char) tolower(*s1++);
+		c2 = (unsigned char) tolower(*s2++);
 		if (c1 == '\0' || c1 != c2)
 			return c1 - c2;
 		n--;
@@ -257,163 +234,176 @@ struct filebuffer *proccessFile(const char *pFile) {
 }
 
 /*
- * name: generateLists
- * @param string, enum listtype, int, int
+ * name: generateWordList
+ * @param pointer to struct wordlist, string
  * @return pointer to struct wordlist
  */
-struct wordlist *generateLists(const char *pFile, enum listtype ltype, int phraseNumWords, int removeDuplicates) {
-	if (phraseNumWords < 0) phraseNumWords = 2;
+struct wordlist *generateWordList(struct wordlist *wList, char *str) {
+	if (!strlen(str))
+		return NULL;
 
-	/* ********** Begin File Process ********** */
+	if (wList == NULL) {
+		if (! (wList = (struct wordlist*) malloc(sizeof(struct wordlist))) )
+			return NULL;
+
+		wList->words = NULL;
+		wList->numwords = 0;
+		wList->size = 0;
+	}
+
+	wList->size += strlen(str);
+
+	if (! (wList->words = (char**) realloc(wList->words, wList->size)) )
+		return NULL;
+
+	char *tok = strtok(str, " ");
+	wList->words[wList->numwords++] = strdup(tok);
+
+	while ( (tok = strtok(NULL, " ")) )
+		wList->words[wList->numwords++] = strdup(tok);
+
+	return wList;
+}
+
+/*
+ * name: generateWordListFromFile
+ * @param pointer to struct wordlist, string
+ * @return pointer to struct wordlist
+ */
+struct wordlist *generateWordListFromFile(struct wordlist *wList, const char *pFile) {
 	struct filebuffer *FB = NULL;
 	if (! (FB = proccessFile(pFile)) ) return NULL;
-	/* ********** End File Process ********** */
 
-	/* ********** Begin Lists Collection ********** */
-	int i, j, found;
-	struct wordlist *unsortedWords = NULL;
-	struct wordlist *unsortedPhrases = NULL;
-	struct wordlist *uniqueWords = NULL;
-	struct wordlist *uniquePhrases = NULL;
-
-	if (! (unsortedWords = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-		return NULL;
-
-	if (! (unsortedWords->words = (char**) calloc(FB->fbsize/sizeof(char*), sizeof(char*))) )
-		return NULL;
-
-	char *tok = strtok(FB->fbuffer, " ");
-	unsortedWords->words[0] = strdup(tok);
-	unsortedWords->numwords = 1;
-
-	for (i = 1; i < FB->fbsize; ++i) {
-		if ( !(tok = strtok(NULL, " ")) ) break;
-		unsortedWords->words[i] = strdup(tok);
-		unsortedWords->numwords++;
-	}
-
-	if (ltype == phrasetype) {
-		if (! (unsortedPhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-			return NULL;
-
-		if (! (unsortedPhrases->words = (char**) calloc(unsortedWords->numwords, sizeof(char*))) )
-			return NULL;
-
-		if (unsortedWords->numwords < phraseNumWords)
-			phraseNumWords = unsortedWords->numwords;
-
-		int phraseIndices = phraseNumWords - 1;
-
-		int phraseSize[unsortedWords->numwords];
-		for (i = phraseIndices; i < unsortedWords->numwords; ++i) {
-			phraseSize[i] = 0;
-			for (j = phraseIndices; j > -1; --j)
-				phraseSize[i] += strlen(unsortedWords->words[i-j])+1;
-		}
-
-		for (unsortedPhrases->numwords = 0, i = phraseIndices; i < unsortedWords->numwords; ++i) {
-			if (! (unsortedPhrases->words[i-phraseIndices] = (char*) malloc(phraseSize[i] * sizeof(char))) )
-				return NULL;
-
-			unsortedPhrases->words[i-phraseIndices][0] = '\0';
-
-			for (j = phraseIndices; j > -1; --j) {
-				if (j < phraseIndices)
-					strncat(unsortedPhrases->words[i-phraseIndices], " ", 1);
-
-				strncat(unsortedPhrases->words[i-phraseIndices], unsortedWords->words[i-j], phraseSize[i-j]);
-			}
-			unsortedPhrases->numwords++;
-		}
-	}
-	/* ********** End Lists Collection ********** */
-
-	/* ********** Begin Lists Sort ********** */
-	if (ltype == wordtype) {
-		if (! (uniqueWords = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-			return NULL;
-
-		if (! (uniqueWords->words = (char**) calloc(unsortedWords->numwords, sizeof(char*))) )
-			return NULL;
-
-		for (uniqueWords->numwords = 0, i = 0; i < unsortedWords->numwords; ++i) {
-			found = 0;
-			for (j = 0; j < unsortedWords->numwords; ++j) {
-				if (uniqueWords->words[j] == NULL) break;
-				if (strncmpi(uniqueWords->words[j], unsortedWords->words[i], strlen(unsortedWords->words[i])) == 0) {
-					found = 1; break;
-				}
-			}
-			if (!found) {
-				uniqueWords->words[j] = strdup(unsortedWords->words[i]);
-				uniqueWords->numwords++;
-			}
-		}
-	}
-
-	if (ltype == phrasetype) {
-		if (! (uniquePhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
-			return NULL;
-
-		if (! (uniquePhrases->words = (char**) calloc(unsortedPhrases->numwords, sizeof(char*))) )
-			return NULL;
-
-		for (uniquePhrases->numwords = 0, i = 0; i < unsortedPhrases->numwords; ++i) {
-			found = 0;
-			for (j = 0; j < unsortedPhrases->numwords; ++j) {
-				if (uniquePhrases->words[j] == NULL) break;
-				if (strncmpi(uniquePhrases->words[j], unsortedPhrases->words[i], strlen(unsortedPhrases->words[i])) == 0) {
-					found = 1; break;
-				}
-			}
-			if (!found) {
-				uniquePhrases->words[j] = strdup(unsortedPhrases->words[i]);
-				uniquePhrases->numwords++;
-			}
-		}
-	}
-	/* ********** End Lists Sort ********** */
-
-	struct wordlist *collection = NULL;
-
-	if (removeDuplicates) {
-		collection = (ltype == phrasetype) ? uniquePhrases : uniqueWords;
-
-		for (i = 0; i < unsortedWords->numwords; ++i)
-			free(unsortedWords->words[i]);
-
-		free(unsortedWords->words);
-		free(unsortedWords);
-
-		if (ltype == phrasetype) {
-			for (i = 0; i < unsortedPhrases->numwords; ++i)
-				free(unsortedPhrases->words[i]);
-
-			free(unsortedPhrases->words);
-			free(unsortedPhrases);
-		}
-	} else {
-		collection = (ltype == phrasetype) ? unsortedPhrases : unsortedWords;
-
-		if (ltype == wordtype) {
-			for (i = 0; i < uniqueWords->numwords; ++i)
-				free(uniqueWords->words[i]);
-
-			free(uniqueWords->words);
-			free(uniqueWords);
-		}
-
-		if (ltype == phrasetype) {
-			for (i = 0; i < uniquePhrases->numwords; ++i)
-				free(uniquePhrases->words[i]);
-
-			free(uniquePhrases->words);
-			free(uniquePhrases);
-		}
-	}
+	wList = generateWordList(wList, FB->fbuffer);
 
 	free(FB->fbuffer);
 	free(FB);
 
-	return collection;
+	return wList;
+}
+
+/*
+ * name: generateUniqueWordList
+ * @param pointer to struct wordlist
+ * @return pointer to struct wordlist
+ */
+struct wordlist *generateUniqueWordList(struct wordlist *wlist) {
+	struct wordlist *uniqueWords = NULL;
+	int i, j, found;
+
+	if (! (uniqueWords = (struct wordlist*) malloc(sizeof(struct wordlist))) )
+		return NULL;
+
+	if (! (uniqueWords->words = (char**) calloc(wlist->numwords, sizeof(char*))) )
+		return NULL;
+
+	for (uniqueWords->numwords = 0, i = 0; i < wlist->numwords; ++i) {
+		found = 0;
+		for (j = 0; j < wlist->numwords; ++j) {
+			if (uniqueWords->words[j] == NULL) break;
+			if (strncmpi(uniqueWords->words[j], wlist->words[i], strlen(wlist->words[i])) == 0) {
+				found = 1; break;
+			}
+		}
+		if (!found) {
+			uniqueWords->words[j] = strdup(wlist->words[i]);
+			uniqueWords->numwords++;
+		}
+	}
+
+	return uniqueWords;
+}
+
+/*
+ * name: generatePhraseList
+ * @param pointer to struct wordlist, int
+ * @return pointer to struct wordlist
+ */
+struct wordlist *generatePhraseList(struct wordlist *wlist, int phraseNumWords) {
+	struct wordlist *unsortedPhrases = NULL;
+	int i, j;
+	if (phraseNumWords < 2) phraseNumWords = 2;
+
+	if (! (unsortedPhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
+		return NULL;
+
+	if (! (unsortedPhrases->words = (char**) calloc(wlist->numwords, sizeof(char*))) )
+		return NULL;
+
+	if (wlist->numwords < phraseNumWords)
+		phraseNumWords = wlist->numwords;
+
+	int phraseIndices = phraseNumWords - 1;
+
+	int phraseSize[wlist->numwords];
+	for (i = phraseIndices; i < wlist->numwords; ++i) {
+		phraseSize[i] = 0;
+		for (j = phraseIndices; j > -1; --j)
+			phraseSize[i] += strlen(wlist->words[i-j])+1;
+	}
+
+	for (unsortedPhrases->numwords = 0, i = phraseIndices; i < wlist->numwords; ++i) {
+		if (! (unsortedPhrases->words[i-phraseIndices] = (char*) malloc(phraseSize[i] * sizeof(char))) )
+			return NULL;
+
+		unsortedPhrases->words[i-phraseIndices][0] = '\0';
+
+		for (j = phraseIndices; j > -1; --j) {
+			if (j < phraseIndices)
+				strncat(unsortedPhrases->words[i-phraseIndices], " ", 1);
+
+			strncat(unsortedPhrases->words[i-phraseIndices], wlist->words[i-j], phraseSize[i-j]);
+		}
+		unsortedPhrases->numwords++;
+	}
+
+	return unsortedPhrases;
+}
+
+/*
+ * name: generateUniquePhraseList
+ * @param pointer to struct wordlist
+ * @return pointer to struct wordlist
+ */
+struct wordlist *generateUniquePhraseList(struct wordlist *plist) {
+	struct wordlist *uniquePhrases = NULL;
+	int i, j, found;
+
+	if (! (uniquePhrases = (struct wordlist*) malloc(sizeof(struct wordlist))) )
+		return NULL;
+
+	if (! (uniquePhrases->words = (char**) calloc(plist->numwords, sizeof(char*))) )
+		return NULL;
+
+	for (uniquePhrases->numwords = 0, i = 0; i < plist->numwords; ++i) {
+		found = 0;
+		for (j = 0; j < plist->numwords; ++j) {
+			if (uniquePhrases->words[j] == NULL) break;
+			if (strncmpi(uniquePhrases->words[j], plist->words[i], strlen(plist->words[i])) == 0) {
+				found = 1; break;
+			}
+		}
+		if (!found) {
+			uniquePhrases->words[j] = strdup(plist->words[i]);
+			uniquePhrases->numwords++;
+		}
+	}
+
+	return uniquePhrases;
+}
+
+/*
+ * name: clearWordList
+ * @param pointer to struct wordlist
+ * @return void
+ */
+void clearWordList(struct wordlist *list) {
+	if (list) {
+		for (int i = 0; i < list->numwords; i++)
+			free(list->words[i]);
+
+		list->numwords = 0;
+		free(list);
+	}
+	list = NULL;
 }

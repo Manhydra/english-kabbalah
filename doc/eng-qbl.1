@@ -1,4 +1,4 @@
-.TH "ENGLISH KABBALAH" 1 "September 2012" "eng-qbl 0.1.2" "English Kabbalah"
+.TH "ENGLISH KABBALAH" 1 "September 2012" "eng-qbl 0.1.3" "English Kabbalah"
 .SH NAME
 The English Kabbalah suite
 .SH SYNOPSIS
@@ -43,7 +43,7 @@ The English Kabbalah suite
 .RE
 .PP
 .B notarikon
-.I {\fIFILE\fR|\fIURL\fR} acronym
+\fB\-f\fR | \fB--file\fR {\fIFILE\fR|\fIURL\fR} \fIacronym\fR
 .SH DESCRIPTION
 English Kabbalah is a collection of command-line applications that
 perform various coding/ciphering tasks, along with searching a given
@@ -79,7 +79,7 @@ This attempts to find words within the book of Genesis of equal English
 Gematria value of the difference between the value of "Love" and "God":
 .PP
 .RS
-\fBgematria -s\fR ./bible-books/Genesis.txt \fB-n\fR $(( $(\fBgematria\fR Love) - $(\fBgematria\fR God) ))
+\fBgematria -s\fR ./bible-books/Genesis.txt -s ./bible-books/Exodus.txt \fB-n\fR $(( $(\fBgematria\fR Love) - $(\fBgematria\fR God) ))
 .RE
 .PP
 This attempts to find words within the book of Genesis of equal

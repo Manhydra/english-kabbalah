@@ -338,9 +338,17 @@ m4trace:configure.ac:22: -1- m4_pattern_allow([^host_vendor$])
 m4trace:configure.ac:22: -1- AC_SUBST([host_os])
 m4trace:configure.ac:22: -1- AC_SUBST_TRACE([host_os])
 m4trace:configure.ac:22: -1- m4_pattern_allow([^host_os$])
-m4trace:configure.ac:25: -1- AC_CHECK_HEADERS([curl/curl.h])
-m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_CURL_CURL_H], [/* Define to 1 if you have the <curl/curl.h> header file. */
-@%:@undef HAVE_CURL_CURL_H])
+m4trace:configure.ac:25: -1- AC_CHECK_HEADERS([stdlib.h ctype.h string.h unistd.h getopt.h])
+m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_STDLIB_H], [/* Define to 1 if you have the <stdlib.h> header file. */
+@%:@undef HAVE_STDLIB_H])
+m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_CTYPE_H], [/* Define to 1 if you have the <ctype.h> header file. */
+@%:@undef HAVE_CTYPE_H])
+m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_STRING_H], [/* Define to 1 if you have the <string.h> header file. */
+@%:@undef HAVE_STRING_H])
+m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_UNISTD_H], [/* Define to 1 if you have the <unistd.h> header file. */
+@%:@undef HAVE_UNISTD_H])
+m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_GETOPT_H], [/* Define to 1 if you have the <getopt.h> header file. */
+@%:@undef HAVE_GETOPT_H])
 m4trace:configure.ac:25: -1- AC_SUBST([CPP])
 m4trace:configure.ac:25: -1- AC_SUBST_TRACE([CPP])
 m4trace:configure.ac:25: -1- m4_pattern_allow([^CPP$])
@@ -380,102 +388,109 @@ m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_STDINT_H], [/* Define to 1 if you h
 @%:@undef HAVE_STDINT_H])
 m4trace:configure.ac:25: -1- AH_OUTPUT([HAVE_UNISTD_H], [/* Define to 1 if you have the <unistd.h> header file. */
 @%:@undef HAVE_UNISTD_H])
-m4trace:configure.ac:25: -1- AC_DEFINE_TRACE_LITERAL([HAVE_CURL_CURL_H])
-m4trace:configure.ac:25: -1- m4_pattern_allow([^HAVE_CURL_CURL_H$])
-m4trace:configure.ac:39: -1- AH_OUTPUT([HAVE_LIBCURLDLL], [/* Define to 1 if you have the `curldll\' library (-lcurldll). */
-@%:@undef HAVE_LIBCURLDLL])
-m4trace:configure.ac:39: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCURLDLL])
-m4trace:configure.ac:39: -1- m4_pattern_allow([^HAVE_LIBCURLDLL$])
-m4trace:configure.ac:45: -1- AH_OUTPUT([HAVE_LIBCURL], [/* Define to 1 if you have the `curl\' library (-lcurl). */
-@%:@undef HAVE_LIBCURL])
-m4trace:configure.ac:45: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCURL])
-m4trace:configure.ac:45: -1- m4_pattern_allow([^HAVE_LIBCURL$])
-m4trace:configure.ac:53: -1- AC_CHECK_HEADERS([stdlib.h string.h unistd.h getopt.h])
-m4trace:configure.ac:53: -1- AH_OUTPUT([HAVE_STDLIB_H], [/* Define to 1 if you have the <stdlib.h> header file. */
-@%:@undef HAVE_STDLIB_H])
-m4trace:configure.ac:53: -1- AH_OUTPUT([HAVE_STRING_H], [/* Define to 1 if you have the <string.h> header file. */
-@%:@undef HAVE_STRING_H])
-m4trace:configure.ac:53: -1- AH_OUTPUT([HAVE_UNISTD_H], [/* Define to 1 if you have the <unistd.h> header file. */
-@%:@undef HAVE_UNISTD_H])
-m4trace:configure.ac:53: -1- AH_OUTPUT([HAVE_GETOPT_H], [/* Define to 1 if you have the <getopt.h> header file. */
-@%:@undef HAVE_GETOPT_H])
-m4trace:configure.ac:56: -1- AC_TYPE_SIZE_T
-m4trace:configure.ac:56: -1- AC_DEFINE_TRACE_LITERAL([size_t])
-m4trace:configure.ac:56: -1- m4_pattern_allow([^size_t$])
-m4trace:configure.ac:56: -1- AH_OUTPUT([size_t], [/* Define to `unsigned int\' if <sys/types.h> does not define. */
+m4trace:configure.ac:28: -1- AC_TYPE_SIZE_T
+m4trace:configure.ac:28: -1- AC_DEFINE_TRACE_LITERAL([size_t])
+m4trace:configure.ac:28: -1- m4_pattern_allow([^size_t$])
+m4trace:configure.ac:28: -1- AH_OUTPUT([size_t], [/* Define to `unsigned int\' if <sys/types.h> does not define. */
 @%:@undef size_t])
-m4trace:configure.ac:59: -1- AC_FUNC_MALLOC
-m4trace:configure.ac:59: -1- AC_CHECK_HEADERS([stdlib.h])
-m4trace:configure.ac:59: -1- AH_OUTPUT([HAVE_STDLIB_H], [/* Define to 1 if you have the <stdlib.h> header file. */
+m4trace:configure.ac:31: -1- AC_FUNC_MALLOC
+m4trace:configure.ac:31: -1- AC_CHECK_HEADERS([stdlib.h])
+m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_STDLIB_H], [/* Define to 1 if you have the <stdlib.h> header file. */
 @%:@undef HAVE_STDLIB_H])
-m4trace:configure.ac:59: -1- AC_DEFINE_TRACE_LITERAL([HAVE_STDLIB_H])
-m4trace:configure.ac:59: -1- m4_pattern_allow([^HAVE_STDLIB_H$])
-m4trace:configure.ac:59: -1- AC_DEFINE_TRACE_LITERAL([HAVE_MALLOC])
-m4trace:configure.ac:59: -1- m4_pattern_allow([^HAVE_MALLOC$])
-m4trace:configure.ac:59: -1- AH_OUTPUT([HAVE_MALLOC], [/* Define to 1 if your system has a GNU libc compatible `malloc\' function, and
+m4trace:configure.ac:31: -1- AC_DEFINE_TRACE_LITERAL([HAVE_STDLIB_H])
+m4trace:configure.ac:31: -1- m4_pattern_allow([^HAVE_STDLIB_H$])
+m4trace:configure.ac:31: -1- AC_DEFINE_TRACE_LITERAL([HAVE_MALLOC])
+m4trace:configure.ac:31: -1- m4_pattern_allow([^HAVE_MALLOC$])
+m4trace:configure.ac:31: -1- AH_OUTPUT([HAVE_MALLOC], [/* Define to 1 if your system has a GNU libc compatible `malloc\' function, and
    to 0 otherwise. */
 @%:@undef HAVE_MALLOC])
-m4trace:configure.ac:59: -1- AC_DEFINE_TRACE_LITERAL([HAVE_MALLOC])
-m4trace:configure.ac:59: -1- m4_pattern_allow([^HAVE_MALLOC$])
-m4trace:configure.ac:59: -1- AC_LIBSOURCE([malloc.c])
-m4trace:configure.ac:59: -1- AC_SUBST([LIB@&t@OBJS], ["$LIB@&t@OBJS malloc.$ac_objext"])
-m4trace:configure.ac:59: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
-m4trace:configure.ac:59: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:59: -1- AC_DEFINE_TRACE_LITERAL([malloc])
-m4trace:configure.ac:59: -1- m4_pattern_allow([^malloc$])
-m4trace:configure.ac:59: -1- AH_OUTPUT([malloc], [/* Define to rpl_malloc if the replacement function should be used. */
+m4trace:configure.ac:31: -1- AC_DEFINE_TRACE_LITERAL([HAVE_MALLOC])
+m4trace:configure.ac:31: -1- m4_pattern_allow([^HAVE_MALLOC$])
+m4trace:configure.ac:31: -1- AC_LIBSOURCE([malloc.c])
+m4trace:configure.ac:31: -1- AC_SUBST([LIB@&t@OBJS], ["$LIB@&t@OBJS malloc.$ac_objext"])
+m4trace:configure.ac:31: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
+m4trace:configure.ac:31: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:31: -1- AC_DEFINE_TRACE_LITERAL([malloc])
+m4trace:configure.ac:31: -1- m4_pattern_allow([^malloc$])
+m4trace:configure.ac:31: -1- AH_OUTPUT([malloc], [/* Define to rpl_malloc if the replacement function should be used. */
 @%:@undef malloc])
-m4trace:configure.ac:60: -1- AC_FUNC_REALLOC
-m4trace:configure.ac:60: -1- AC_CHECK_HEADERS([stdlib.h])
-m4trace:configure.ac:60: -1- AH_OUTPUT([HAVE_STDLIB_H], [/* Define to 1 if you have the <stdlib.h> header file. */
+m4trace:configure.ac:32: -1- AC_FUNC_REALLOC
+m4trace:configure.ac:32: -1- AC_CHECK_HEADERS([stdlib.h])
+m4trace:configure.ac:32: -1- AH_OUTPUT([HAVE_STDLIB_H], [/* Define to 1 if you have the <stdlib.h> header file. */
 @%:@undef HAVE_STDLIB_H])
-m4trace:configure.ac:60: -1- AC_DEFINE_TRACE_LITERAL([HAVE_STDLIB_H])
-m4trace:configure.ac:60: -1- m4_pattern_allow([^HAVE_STDLIB_H$])
-m4trace:configure.ac:60: -1- AC_DEFINE_TRACE_LITERAL([HAVE_REALLOC])
-m4trace:configure.ac:60: -1- m4_pattern_allow([^HAVE_REALLOC$])
-m4trace:configure.ac:60: -1- AH_OUTPUT([HAVE_REALLOC], [/* Define to 1 if your system has a GNU libc compatible `realloc\' function,
+m4trace:configure.ac:32: -1- AC_DEFINE_TRACE_LITERAL([HAVE_STDLIB_H])
+m4trace:configure.ac:32: -1- m4_pattern_allow([^HAVE_STDLIB_H$])
+m4trace:configure.ac:32: -1- AC_DEFINE_TRACE_LITERAL([HAVE_REALLOC])
+m4trace:configure.ac:32: -1- m4_pattern_allow([^HAVE_REALLOC$])
+m4trace:configure.ac:32: -1- AH_OUTPUT([HAVE_REALLOC], [/* Define to 1 if your system has a GNU libc compatible `realloc\' function,
    and to 0 otherwise. */
 @%:@undef HAVE_REALLOC])
-m4trace:configure.ac:60: -1- AC_DEFINE_TRACE_LITERAL([HAVE_REALLOC])
-m4trace:configure.ac:60: -1- m4_pattern_allow([^HAVE_REALLOC$])
-m4trace:configure.ac:60: -1- AC_LIBSOURCE([realloc.c])
-m4trace:configure.ac:60: -1- AC_SUBST([LIB@&t@OBJS], ["$LIB@&t@OBJS realloc.$ac_objext"])
-m4trace:configure.ac:60: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
-m4trace:configure.ac:60: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:60: -1- AC_DEFINE_TRACE_LITERAL([realloc])
-m4trace:configure.ac:60: -1- m4_pattern_allow([^realloc$])
-m4trace:configure.ac:60: -1- AH_OUTPUT([realloc], [/* Define to rpl_realloc if the replacement function should be used. */
+m4trace:configure.ac:32: -1- AC_DEFINE_TRACE_LITERAL([HAVE_REALLOC])
+m4trace:configure.ac:32: -1- m4_pattern_allow([^HAVE_REALLOC$])
+m4trace:configure.ac:32: -1- AC_LIBSOURCE([realloc.c])
+m4trace:configure.ac:32: -1- AC_SUBST([LIB@&t@OBJS], ["$LIB@&t@OBJS realloc.$ac_objext"])
+m4trace:configure.ac:32: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
+m4trace:configure.ac:32: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:32: -1- AC_DEFINE_TRACE_LITERAL([realloc])
+m4trace:configure.ac:32: -1- m4_pattern_allow([^realloc$])
+m4trace:configure.ac:32: -1- AH_OUTPUT([realloc], [/* Define to rpl_realloc if the replacement function should be used. */
 @%:@undef realloc])
-m4trace:configure.ac:61: -1- AC_CHECK_FUNCS([strdup getopt_long])
-m4trace:configure.ac:61: -1- AH_OUTPUT([HAVE_STRDUP], [/* Define to 1 if you have the `strdup\' function. */
+m4trace:configure.ac:33: -1- AC_CHECK_FUNCS([strdup getopt_long])
+m4trace:configure.ac:33: -1- AH_OUTPUT([HAVE_STRDUP], [/* Define to 1 if you have the `strdup\' function. */
 @%:@undef HAVE_STRDUP])
-m4trace:configure.ac:61: -1- AH_OUTPUT([HAVE_GETOPT_LONG], [/* Define to 1 if you have the `getopt_long\' function. */
+m4trace:configure.ac:33: -1- AH_OUTPUT([HAVE_GETOPT_LONG], [/* Define to 1 if you have the `getopt_long\' function. */
 @%:@undef HAVE_GETOPT_LONG])
-m4trace:configure.ac:63: -1- AC_CONFIG_FILES([Makefile])
-m4trace:configure.ac:64: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
-m4trace:configure.ac:64: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:64: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([LTLIBOBJS])
-m4trace:configure.ac:64: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:64: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:64: -1- AC_PREREQ([2.52])
-m4trace:configure.ac:64: -1- AC_SUBST([am__EXEEXT_TRUE])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([am__EXEEXT_TRUE])
-m4trace:configure.ac:64: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:64: -1- AC_SUBST([am__EXEEXT_FALSE])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([am__EXEEXT_FALSE])
-m4trace:configure.ac:64: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:64: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:64: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([top_builddir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([top_build_prefix])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([srcdir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([abs_srcdir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([top_srcdir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([abs_top_srcdir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([builddir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([abs_builddir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([abs_top_builddir])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([INSTALL])
-m4trace:configure.ac:64: -1- AC_SUBST_TRACE([MKDIR_P])
+m4trace:configure.ac:51: -1- AC_CHECK_HEADERS([curl/curl.h], [], [AC_MSG_ERROR([Either the header file curl/curl.h cannot be found or is not installed at all. Install curl/curl.h or set --with-curl=no.])
+					])
+m4trace:configure.ac:51: -1- AH_OUTPUT([HAVE_CURL_CURL_H], [/* Define to 1 if you have the <curl/curl.h> header file. */
+@%:@undef HAVE_CURL_CURL_H])
+m4trace:configure.ac:51: -1- AC_DEFINE_TRACE_LITERAL([HAVE_CURL_CURL_H])
+m4trace:configure.ac:51: -1- m4_pattern_allow([^HAVE_CURL_CURL_H$])
+m4trace:configure.ac:51: -1- AC_SUBST([LIBCURL], ["-lcurldll"])
+m4trace:configure.ac:51: -1- AC_SUBST_TRACE([LIBCURL])
+m4trace:configure.ac:51: -1- m4_pattern_allow([^LIBCURL$])
+m4trace:configure.ac:51: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCURLDLL])
+m4trace:configure.ac:51: -1- m4_pattern_allow([^HAVE_LIBCURLDLL$])
+m4trace:configure.ac:51: -1- AH_OUTPUT([HAVE_LIBCURLDLL], [/* Define if you have libcurldll */
+@%:@undef HAVE_LIBCURLDLL])
+m4trace:configure.ac:65: -1- AC_CHECK_HEADERS([curl/curl.h], [], [AC_MSG_ERROR([Either the header file curl/curl.h cannot be found or is not installed at all. Install curl/curl.h or set --with-curl=no.])
+					])
+m4trace:configure.ac:65: -1- AH_OUTPUT([HAVE_CURL_CURL_H], [/* Define to 1 if you have the <curl/curl.h> header file. */
+@%:@undef HAVE_CURL_CURL_H])
+m4trace:configure.ac:65: -1- AC_DEFINE_TRACE_LITERAL([HAVE_CURL_CURL_H])
+m4trace:configure.ac:65: -1- m4_pattern_allow([^HAVE_CURL_CURL_H$])
+m4trace:configure.ac:65: -1- AC_SUBST([LIBCURL], ["-lcurl"])
+m4trace:configure.ac:65: -1- AC_SUBST_TRACE([LIBCURL])
+m4trace:configure.ac:65: -1- m4_pattern_allow([^LIBCURL$])
+m4trace:configure.ac:65: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCURL])
+m4trace:configure.ac:65: -1- m4_pattern_allow([^HAVE_LIBCURL$])
+m4trace:configure.ac:65: -1- AH_OUTPUT([HAVE_LIBCURL], [/* Define if you have libcurl */
+@%:@undef HAVE_LIBCURL])
+m4trace:configure.ac:80: -1- AC_CONFIG_FILES([Makefile])
+m4trace:configure.ac:81: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
+m4trace:configure.ac:81: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:81: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([LTLIBOBJS])
+m4trace:configure.ac:81: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:81: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:81: -1- AC_PREREQ([2.52])
+m4trace:configure.ac:81: -1- AC_SUBST([am__EXEEXT_TRUE])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([am__EXEEXT_TRUE])
+m4trace:configure.ac:81: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:81: -1- AC_SUBST([am__EXEEXT_FALSE])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([am__EXEEXT_FALSE])
+m4trace:configure.ac:81: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:81: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:81: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([top_builddir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([top_build_prefix])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([srcdir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([abs_srcdir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([top_srcdir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([abs_top_srcdir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([builddir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([abs_builddir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([abs_top_builddir])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([INSTALL])
+m4trace:configure.ac:81: -1- AC_SUBST_TRACE([MKDIR_P])

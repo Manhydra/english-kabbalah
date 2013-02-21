@@ -1,9 +1,9 @@
-.TH "ENGLISH NOTARIKON" 1 "September 2012" "eng-qbl 0.1.2" "English Kabbalah"
+.TH "ENGLISH NOTARIKON" 1 "September 2012" "eng-qbl 0.1.3" "English Kabbalah"
 .SH NAME
 English Notarikon \- Part of the English Kabbalah suite
 .SH SYNOPSIS
 .B notarikon
-{\fIFILE\fR | \fIURL\fR} \fIacronym\fR
+\fB\-f\fR | \fB--file\fR {\fIFILE\fR|\fIURL\fR} \fIacronym\fR
 .SH DESCRIPTION
 Outputs a list of phrases from a given file where the first letter
 of each word in a phrase is found in the inputted acronym. An
@@ -22,14 +22,14 @@ Against Drunk Driving," and "NATO" from "North American Treaty
 Organizaton."
 .SH OPTIONS
 .PP
-\fIFILE\fR|\fIURL\fR
-Local or remote text file from which to find phrases matching acronym
+-f, --file \fIFILE\fR|\fIURL\fR
+Local or remote text file(s) from which to find phrases matching acronym.
 .PP
 \fIacronym\fR
 A word representing a proposed acronym
 .SH EXAMPLES
 .RS
-\fBnotarikon\fR ./bible-books/Torah.txt Gog
+\fBnotarikon\fR -f ./bible-books/Genesis.txt -f ./bibile-books/Exodus.txt Gog
 .br
 gods of gold
 .br

@@ -1,5 +1,5 @@
 /*
- *      gematria.h
+ *      notarikon.h
  *
  *      Copyright 2012 Marc Sylvestre <marc.sylvestre@manhydra.com>
  *
@@ -14,43 +14,26 @@
  *      GNU General Public License for more details.
  *
  *      You should have received a copy of the GNU General Public License
- *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
  */
 
-#ifndef __GEMATRIA_H__
-#define __GEMATRIA_H__
+#ifndef __NOTARIKON_H__
+#define __NOTARIKON_H__
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define GEMOFFSET 6
-
 /*
- * Returns the English Gematria numeric value of an alphabet
+ * Outputs a list of words from a given file where the first leter of
+ * each word is found in the inputted acronym.
  *
- * name: numcode
- * @param char
- * @return unsigned int
+ * name: notarikon
+ * @param string, pointer to struct wordlist
+ * @return void
  */
-unsigned int numCode(char);
+void notarikon(char *acronym, struct wordlist *searchList);
 
-/*
- * Returns the apha-character based on the English Gematria numeric value
- *
- * name: charcode
- * @param int
- * @return char
- */
-char charCode(int);
-
-/*
- * Returns the English Gematria numeric value of a string
- *
- * name: numeric_value
- * @param string
- * @return unsigned int
- */
-unsigned int gemNumericValue(char*);
-
-#endif /* __GEMATRIA_H__  */
+#endif /* __NOTARIKON_H__ */

@@ -17,12 +17,33 @@
  *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <getopt.h>
 #include "processing.h"
 #include "temurah.h"
 
-int compareChar(const void *a, const void *b) {
-  return ( *(char*)a - *(char*)b );
+static const char const uconsonants[] = "BCDFGHJKLMNPQRSTVWXZ";
+static const char const lconsonants[] = "bcdfghjklmnpqrstvwxz";
+
+static const char const uvowels[] = "AEIOUY";
+static const char const lvowels[] = "aeiouy";
+
+static const char const *uconsgroup[5] = {
+	"BHNT", "CJPV", "DKQW", "FLRX", "GMSZ"
+};
+
+static const char const *uvowgroup[3] = {
+	"AO", "EU", "IY"
+};
+
+static const char const *lconsgroup[5] = {
+	"bhnt", "cjpv", "dkqw", "flrx", "gmsz"
+};
+
+static const char const *lvowgroup[3] = {
+	"ao", "eu", "iy"
+};
+
+static int compareChar(const void *a, const void *b) {
+	return ( *(char*)a - *(char*)b );
 }
 
 /*
@@ -346,159 +367,4 @@ char *aikbekar(char *word) {
 	}
 
 	return w;
-}
-
-void displayUsage() {
-	fprintf(stderr, "\n===============================================================\n"
-		"English Temurah\n"
-		"Copyright (C) 2012 Marc Sylvestre <marc.sylvestre@manhydra.com>\n\n"
-
-		"This program comes with ABSOLUTELY NO WARRANTY.\n"
-		"This is free software, and you are welcome to redistribute it\n"
-		"under certain conditions.\n\n"
-
-		"  -a | --all			 Word or phrase is enciphered using all methods.\n"
-		"  -f | --forward-avgad  Word or phrase is enciphered using Forward-shift Avgad.\n"
-		"  -r | --backward-avgad Word or phrase is enciphered using Backward-shift Avgad.\n"
-		"  -t | --atbash		 Word or phrase is enciphered using Atbash.\n"
-		"  -l | --albam			 Word or phrase is enciphered using Albam.\n"
-		"  -b | --aikbekar		 Word or phrase is enciphered using Aik Bekar.\n"
-		"  -s | --search		 Optional: Text file (local or remote) in which to search for enciphered world or phrase.\n"
-		"  -p | --phrases		 Optional: To conduct phrase search, where each resulting phrase has num words.\n\n"
-
-		"Usage: temurah [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -f | --forward-avgad Word | 'Phrase'\n"
-		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -r | --backward-avgad Word | 'Phrase'\n"
-		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -t | --atbash Word | 'Phrase'\n"
-		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -l | --albam Word | 'Phrase'\n"
-		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -b | --aikbekar Word | 'Phrase'\n"
-		"		        [ -s {FILE|URL} | --search={FILE|URL} [-p num | --phrases=num]] -a | --all Word | 'Phrase'\n"
-		"===============================================================\n\n");
-		exit(EXIT_FAILURE);
-}
-
-int main(int argc, char **argv) {
-	int opt, numWordsInPhrase = 2, f_avgadFlag = 0, r_avgadFlag = 0, atbashFlag = 0,
-		albamFlag = 0, aikbekarFlag = 0, searchFlag = 0;
-	char temWord[256], *searchFile = NULL;
-	enum listtype ltype = wordtype;
-
-	static struct option long_options[] = {
-	   {"all", 0, NULL, 'a'},
-	   {"forward-avgad", 0, NULL, 'f'},
-	   {"backward-avgad", 0, NULL, 'r'},
-	   {"atbash", 0, NULL, 't'},
-	   {"albam", 0, NULL, 'l'},
-	   {"aikbekar", 0, NULL, 'b'},
-	   {"search", 1, NULL, 's'},
-	   {"phrases", 1, NULL, 'p'},
-       {0, 0, 0, 0}
-   };
-
-	if (argc < 2) displayUsage();
-
-	while ((opt = getopt_long(argc, argv, "abflrs:tp:", long_options, NULL)) != -1) {
-		switch (opt) {
-			case 'a':
-				f_avgadFlag = 1;
-				r_avgadFlag = 1;
-				atbashFlag = 1;
-				albamFlag = 1;
-				aikbekarFlag = 1;
-			break;
-			case 'b':
-				aikbekarFlag = 1;
-			break;
-			case 'f':
-				f_avgadFlag = 1;
-			break;
-			case 'l':
-				albamFlag = 1;
-			break;
-			case 'p':
-				ltype = phrasetype;
-				numWordsInPhrase = atoi(optarg);
-			break;
-			case 'r':
-				r_avgadFlag = 1;
-			break;
-			case 's':
-				searchFlag = 1;
-				searchFile = optarg;
-			break;
-			case 't':
-				atbashFlag = 1;
-			break;
-			default:
-				displayUsage();
-		}
-	}
-
-	if (optind >= argc) {
-		fgets(temWord, 256, stdin);
-		temWord[strlen(temWord)-1] = '\0';
-	}
-	else strncpy(temWord, argv[optind], 256);
-
-	if (f_avgadFlag)	printf("%s\n", f_avgad(temWord));
-	if (r_avgadFlag)	printf("%s\n", r_avgad(temWord));
-	if (atbashFlag)		printf("%s\n", atbash(temWord));
-	if (albamFlag)		printf("%s\n", albam(temWord));
-	if (aikbekarFlag)	printf("%s\n", aikbekar(temWord));
-
-	if (searchFlag) {
-		struct wordlist *searchList = NULL;
-
-		if (numWordsInPhrase < 2) numWordsInPhrase = 2;
-		if (! (searchList = generateLists(searchFile, ltype, numWordsInPhrase, 1)) ) {
-			fprintf(stderr, "Unable to generate search list. %s is either corrupted or cannot be accessed at this time.\n"
-							"If %s is a remote file, you'll need to insall libcurl and recompile %s to access it. Consult the README file for details.\n", searchFile, searchFile, PACKAGE);
-			exit(EXIT_FAILURE);
-		}
-
-		int i, count;
-
-		if (f_avgadFlag) {
-			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(f_avgad(temWord), searchList->words[i], strlen(searchList->words[i])) == 0)
-					count++;
-
-			printf("%i\n", count);
-		}
-		if (r_avgadFlag) {
-			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(r_avgad(temWord), searchList->words[i], strlen(searchList->words[i])) == 0)
-					count++;
-
-			printf("%i\n", count);
-		}
-		if (atbashFlag) {
-			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(atbash(temWord), searchList->words[i], strlen(searchList->words[i])) == 0)
-					count++;
-
-			printf("%i\n", count);
-		}
-		if (albamFlag) {
-			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(albam(temWord), searchList->words[i], strlen(searchList->words[i])) == 0)
-					count++;
-
-			printf("%i\n", count);
-		}
-		if (aikbekarFlag) {
-			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(aikbekar(temWord), searchList->words[i], strlen(searchList->words[i])) == 0)
-					count++;
-
-			printf("%i\n", count);
-		}
-
-		for (i = 0; i < searchList->numwords; i++)
-			free(searchList->words[i]);
-
-		free(searchList->words);
-		free(searchList);
-	}
-
-	exit(EXIT_SUCCESS);
 }

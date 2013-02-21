@@ -52,13 +52,16 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_gematria_OBJECTS = processing.$(OBJEXT) gematria.$(OBJEXT)
+am_gematria_OBJECTS = processing.$(OBJEXT) gematria.$(OBJEXT) \
+	eq-gematria.$(OBJEXT)
 gematria_OBJECTS = $(am_gematria_OBJECTS)
 gematria_LDADD = $(LDADD)
-am_notarikon_OBJECTS = processing.$(OBJEXT) notarikon.$(OBJEXT)
+am_notarikon_OBJECTS = processing.$(OBJEXT) notarikon.$(OBJEXT) \
+	eq-notarikon.$(OBJEXT)
 notarikon_OBJECTS = $(am_notarikon_OBJECTS)
 notarikon_LDADD = $(LDADD)
-am_temurah_OBJECTS = processing.$(OBJEXT) temurah.$(OBJEXT)
+am_temurah_OBJECTS = processing.$(OBJEXT) temurah.$(OBJEXT) \
+	eq-temurah.$(OBJEXT)
 temurah_OBJECTS = $(am_temurah_OBJECTS)
 temurah_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -135,8 +138,9 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
+LIBCURL = @LIBCURL@
 LIBOBJS = @LIBOBJS@
-LIBS = @LIBS@
+LIBS = $(LIBCURL)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -204,9 +208,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -Wall -std=gnu99
-gematria_SOURCES = processing.h processing.c gematria.h gematria.c
-temurah_SOURCES = processing.h processing.c temurah.h temurah.c
-notarikon_SOURCES = processing.h processing.c notarikon.c
+gematria_SOURCES = processing.c gematria.c eq-gematria.c
+temurah_SOURCES = processing.c temurah.c eq-temurah.c
+notarikon_SOURCES = processing.c notarikon.c eq-notarikon.c
 man_MANS = doc/eng-qbl.1 doc/gematria.1 doc/temurah.1 doc/notarikon.1
 EXTRA_DIST = sample-texts/bible-books.tar.gz \
 			 sample-texts/bible.txt.tar.gz \
@@ -323,6 +327,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-gematria.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-notarikon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-temurah.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gematria.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/notarikon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/processing.Po@am__quote@

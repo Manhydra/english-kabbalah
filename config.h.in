@@ -1,5 +1,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 1 if you have the <ctype.h> header file. */
+#undef HAVE_CTYPE_H
+
 /* Define to 1 if you have the <curl/curl.h> header file. */
 #undef HAVE_CURL_CURL_H
 
@@ -12,10 +15,10 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the `curl' library (-lcurl). */
+/* Define if you have libcurl */
 #undef HAVE_LIBCURL
 
-/* Define to 1 if you have the `curldll' library (-lcurldll). */
+/* Define if you have libcurldll */
 #undef HAVE_LIBCURLDLL
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
