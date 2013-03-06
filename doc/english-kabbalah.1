@@ -1,0 +1,120 @@
+.TH "ENGLISH KABBALAH" 1 "March 2013" "eng-qbl 0.2" "English Kabbalah"
+.SH NAME
+The English Kabbalah suite
+.SH SYNOPSIS
+.B gematria
+[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+[\fB\-c\fR | \fB--count\fR]]
+\fIWord...\fR
+.br
+.RS
+  [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+[\fB\-c\fR | \fB--count\fR]]
+\fB\-n\fR | \fB--gemval\fR \fInumericvalue\fR
+.RE
+.PP
+.B temurah
+[\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+\fB\-a\fR | \fB--all\fR \fIWord...\fR
+.br
+.RS
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+\fB\-f\fR | \fB--forward-avgad\fR \fIWord...\fR
+.br
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+\fB\-r\fR | \fB--backward-avgad\fR \fIWord...\fR
+.br
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+\fB\-t\fR | \fB--atbash\fR \fIWord...\fR
+.br
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+\fB\-l\fR | \fB--albam\fR \fIWord...\fR
+.br
+ [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
+[\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
+\fB\-b\fR | \fB--aikbekar\fR \fIWord...\fR
+.RE
+.PP
+.B notarikon
+\fB\-f\fR | \fB--file\fR {\fIFILE\fR|\fIURL\fR} \fIacronym\fR
+.SH DESCRIPTION
+English Kabbalah is a collection of command-line applications that
+perform various coding/ciphering tasks, along with searching a given
+file for the results thereof.
+.PP
+.SS Background
+.PP
+Kabbalah is often defined as an esoteric discipline or school of
+philosophy. Various descriptions exist, however, one of the most
+overlooked aspects or practices in Kabbalah (and probably the most
+fundamental) is an area known as the "Literal Kabbalah."
+.PP
+This area is often described as having concerns with the
+relationship between letters and numbers, however, this is a very
+general description of what in actually is a sophisticated
+coding/ciphering system. All the methods of the Literal Kabbalah
+were used, in various forms, for several coding/ciphering
+activities, most notably in military intelligence, and espionage.
+.SH EXAMPLES
+The English Kabbalah suite are command-line applications designed to
+be modular, which can be used in shell scripting to yield complex
+results.
+.PP
+An ouput from one application can be piped to the input of another. This
+example attempts to find words within the book of Genesis of equal English
+Gematria value to that of the Forward-shift Avgad of "Acam":
+.PP
+.RS
+\fBtemurah -f\fR Acam | \fBgematria -s\fR Genesis.txt
+.RE
+.PP
+This attempts to find words within the book of Genesis of equal English
+Gematria value of the difference between the value of "Love" and "God":
+.PP
+.RS
+\fBgematria -s\fR Genesis.txt \fB-s\fR Exodus.txt \fB-n\fR $(( $(\fBgematria\fR Love) - $(\fBgematria\fR God) ))
+.RE
+.PP
+This attempts to find words within the book of Genesis of equal
+English Gematria value to that of "Josha" where each result is
+enciphered in Atbash:
+.PP
+.RS
+\fBgematria -s\fR ./bible-books/Genesis.txt Joshua | while read $result; do \fBtemurah -t\fR $result; done
+.RE
+.SH NOTES ON USAGE
+One of the difficulties in this English Kabbalah system is the generation of
+meaningful results. Because this coding/ciphering system was
+created at a time when languages were probably still developing,
+such a system would enabled the creation of new words with different
+applications while maintaining comparable properties with other
+words. Although this is rather difficult with a language such as
+English, it is possible for meaningful result to be generated using
+a combination of decoding/deciphering techniques.
+.PP
+However, this system is not relegated only to finding codes and
+ciphers, but in the task of creating them. This would be useful for
+any writer, especially those of fictional works, to encode/encipher
+key words or phrases to add new dimensions of mystery within their
+works.
+.PP
+It is intended that this suite will aid the student of Kabbalah, or
+any one interested enough, to discover for him/herself any
+underlying mystery of meanings within texts considered holy or
+otherwise, and to find entertainment in the attempts thereof.
+.SH BUGS
+Report technical problems using these programs to the author.
+.SH AUTHOR
+Written by Marc Sylvestre <marc.sylvestre@manhydra.com>
+.SH SEE ALSO
+.IR eng-qbl (1),
+.IR gematria (1),
+.IR temurah (1),
+.IR notarikon (1)

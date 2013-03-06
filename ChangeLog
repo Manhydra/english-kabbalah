@@ -1,3 +1,13 @@
+2013-02-28	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* eng-qbl.c: A new command line application that offers working
+	with the English Kabbalah system interactively.
+
+	* processing.c: listToString; Takes a list of words from a
+	struct wordlist and returns that list as a string of words
+	delimited by spaces. This eliminates the tedious need to
+	constantly use quotes when inputting phrases on the command line.
+
 2013-02-18	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
 	* processing.c: generateWordList and generateWordListFromFile;

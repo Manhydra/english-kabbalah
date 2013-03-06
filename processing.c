@@ -256,10 +256,9 @@ struct wordlist *generateWordList(struct wordlist *wList, char *str) {
 	if (! (wList->words = (char**) realloc(wList->words, wList->size)) )
 		return NULL;
 
-	char *tok = strtok(str, " ");
-	wList->words[wList->numwords++] = strdup(tok);
+	char *tok = NULL;
 
-	while ( (tok = strtok(NULL, " ")) )
+	while ( (tok = strtok(tok? NULL : str, " ")) )
 		wList->words[wList->numwords++] = strdup(tok);
 
 	return wList;
@@ -390,6 +389,27 @@ struct wordlist *generateUniquePhraseList(struct wordlist *plist) {
 	}
 
 	return uniquePhrases;
+}
+
+/*
+ * name: listToString
+ * @param pointer to struct wordlist, int
+ * @return string
+ */
+char *listToString(struct wordlist *wList, int index) {
+	char *buf = NULL;
+	size_t bufsize = 0;
+
+	while (index < wList->numwords) {
+		buf = (char*) realloc(buf, bufsize + strlen(wList->words[index]) + 2);
+		strncpy(&buf[bufsize], wList->words[index], strlen(wList->words[index]));
+		bufsize += strlen(wList->words[index]);
+		buf[bufsize] = ' ';
+		buf[++bufsize] = '\0';
+		index++;
+	}
+
+	return buf;
 }
 
 /*

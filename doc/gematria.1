@@ -1,4 +1,4 @@
-.TH "ENGLISH GEMATRIA" 1 "September 2012" "eng-qbl 0.1.3" "English Kabbalah"
+.TH "ENGLISH GEMATRIA" 1 "March 2013" "eng-qbl 0.2" "English Kabbalah"
 .SH NAME
 English Gematria \- Part of the English Kabbalah suite
 .SH SYNOPSIS
@@ -6,7 +6,7 @@ English Gematria \- Part of the English Kabbalah suite
 [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
 [\fB\-p\fR \fInum\fR | \fB--phrases=\fR\fInum\fR]
 [\fB\-c\fR | \fB--count\fR]]
-\fIWord\fR | \fI'Phrase'\fR
+\fIWord...\fR
 .br
 .RS
   [\fB\-s\fR {\fIFILE\fR|\fIURL\fR} | \fB--search=\fR{\fIFILE\fR|\fIURL\fR}]
@@ -64,14 +64,8 @@ phrase to retrieve its value:
 .PP
 .RS
 \fBgematria\fR Jesus
-.RE
-.PP
-Phrases should always be enclosed in single or double quotes:
-.PP
-.RS
-\fBgematria\fR 'all roads lead to Rome'
 .br
-\fBgematria\fR "the star in the sky"
+\fBgematria\fR all roads lead to Rome
 .RE
 .PP
 The most useful method of English Gematria is to find words or
@@ -81,9 +75,9 @@ files:
 .RS
 \fBgematria -s\fR /path/to/textfile people
 .br
-\fBgematria -s\fR /path/to/textfile \fB-p\fR 3 'of mice and men'
+\fBgematria -s\fR /path/to/textfile \fB-s\fR /path/to/another-textfile \fB-p\fR 3 of mice and men
 .br
-\fBgematria -s\fR http://www.example.com/dir/page 'the storm'
+\fBgematria -s\fR http://www.example.com/dir/page the storm
 .RE
 .PP
 A specified value can also be passed to find words or phrases of
@@ -146,6 +140,7 @@ Report technical problems using these programs to the author.
 .SH AUTHOR
 Written by Marc Sylvestre <marc.sylvestre@manhydra.com>
 .SH SEE ALSO
+.IR english-kabbalah (1),
 .IR eng-qbl (1),
 .IR temurah (1),
 .IR notarikon (1)

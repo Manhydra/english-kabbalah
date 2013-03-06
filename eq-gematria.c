@@ -97,8 +97,13 @@ int main(int argc, char **argv) {
 		if (valueFlag)
 			theValue = atoi(argv[optind]);
 		else {
-			strncpy(gemWord, argv[optind], 256);
-			theValue = gemNumericValue(gemWord);
+			char *buf = NULL;
+			struct wordlist ctl;
+			ctl.numwords = argc;
+			ctl.words = argv;
+			buf = listToString(&ctl, optind);
+			theValue = gemNumericValue(buf);
+			free(buf);
 		}
 	}
 

@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 	static struct option long_options[] = {
 	   {"file", 1, NULL, 'f'},
        {0, 0, 0, 0}
-   };
+	};
 
 	while ((opt = getopt_long(argc, argv, "f:", long_options, NULL)) != -1) {
 		switch (opt) {

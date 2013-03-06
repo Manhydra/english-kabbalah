@@ -131,6 +131,15 @@ struct wordlist *generatePhraseList(struct wordlist*, int);
 struct wordlist *generateUniquePhraseList(struct wordlist*);
 
 /*
+ * Returns a list of words as a string.
+ *
+ * name: listToString
+ * @param pointer to struct wordlist, int
+ * @return string
+ */
+char *listToString(struct wordlist*, int);
+
+/*
  * Destroys wordlist items, freeing memory
  *
  * name: clearWordList

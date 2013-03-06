@@ -127,7 +127,15 @@ int main(int argc, char **argv) {
 		fgets(temWord, 256, stdin);
 		temWord[strlen(temWord)-1] = '\0';
 	}
-	else strncpy(temWord, argv[optind], 256);
+	else {
+		char *buf = NULL;
+		struct wordlist ctl;
+		ctl.numwords = argc;
+		ctl.words = argv;
+		buf = listToString(&ctl, optind);
+		strncpy(temWord, buf, 256);
+		free(buf);
+	}
 
 	if (f_avgadFlag)	{ f_avgad_w = f_avgad(temWord);	  puts(f_avgad_w);  }
 	if (r_avgadFlag)	{ r_avgad_w = r_avgad(temWord);	  puts(r_avgad_w);  }
@@ -211,14 +219,14 @@ int main(int argc, char **argv) {
 			printf("%i\n", count);
 		}
 
-		free(f_avgad_w);
-		free(r_avgad_w);
-		free(atbash_w);
-		free(albam_w);
-		free(aikbekar_w);
-
 		clearWordList(searchList);
 	}
+
+	free(f_avgad_w);
+	free(r_avgad_w);
+	free(atbash_w);
+	free(albam_w);
+	free(aikbekar_w);
 
 	exit(EXIT_SUCCESS);
 }
