@@ -77,11 +77,20 @@ For the most basic build and installation:
 
 Library required for remote file access:
 
-	libcurl >= 7.21.0
+	libcurl-dev >= 7.21.0
 
 Building with libcurl is disabled by default. To build with libcurl:
 
 	./configure --with-curl=yes
+
+English Kabbalah provides an interactive application (eng-qbl).
+Building eng-qbl is disabled by default. To build eng-qbl:
+
+	./configure --enable-engqbl=yes
+
+Library required for eng-qbl:
+
+	libreadline-dev >= 6.1
 
 For information on installation, consult the INSTALL file.
 
