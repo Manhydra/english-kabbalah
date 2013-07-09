@@ -1,3 +1,17 @@
+2013-07-08	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* anagram.c, eq-anagram.c: New application.
+
+2013-06-24	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: New functions: strToLowerCase(), stripSpace().
+
+2013-05-16	Marc Sylvestre	<marc.sylvestre@manhydra.com>
+
+	* processing.c: Replaced strncmpi() with strncasecmp() because I
+	didn't see it earlier within string.h. Yes, I know, should've
+	seen it earlier :P
+
 2013-02-28	Marc Sylvestre	<marc.sylvestre@manhydra.com>
 
 	* eng-qbl.c: A new command line application that offers working

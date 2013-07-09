@@ -35,7 +35,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = gematria$(EXEEXT) temurah$(EXEEXT) notarikon$(EXEEXT) \
-	$(am__EXEEXT_1)
+	anagram$(EXEEXT) $(am__EXEEXT_1)
 @BUILDENGQBL_TRUE@am__append_1 = eng-qbl
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
@@ -55,11 +55,16 @@ CONFIG_CLEAN_VPATH_FILES =
 @BUILDENGQBL_TRUE@am__EXEEXT_1 = eng-qbl$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_anagram_OBJECTS = processing.$(OBJEXT) anagram.$(OBJEXT) \
+	eq-anagram.$(OBJEXT)
+anagram_OBJECTS = $(am_anagram_OBJECTS)
+anagram_LDADD = $(LDADD)
 am__eng_qbl_SOURCES_DIST = processing.c gematria.c temurah.c \
-	notarikon.c eng-qbl.c
+	notarikon.c anagram.c eng-qbl.c
 @BUILDENGQBL_TRUE@am_eng_qbl_OBJECTS = processing.$(OBJEXT) \
 @BUILDENGQBL_TRUE@	gematria.$(OBJEXT) temurah.$(OBJEXT) \
-@BUILDENGQBL_TRUE@	notarikon.$(OBJEXT) eng-qbl.$(OBJEXT)
+@BUILDENGQBL_TRUE@	notarikon.$(OBJEXT) anagram.$(OBJEXT) \
+@BUILDENGQBL_TRUE@	eng-qbl.$(OBJEXT)
 eng_qbl_OBJECTS = $(am_eng_qbl_OBJECTS)
 am__DEPENDENCIES_1 =
 am_gematria_OBJECTS = processing.$(OBJEXT) gematria.$(OBJEXT) \
@@ -82,10 +87,10 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(eng_qbl_SOURCES) $(gematria_SOURCES) $(notarikon_SOURCES) \
-	$(temurah_SOURCES)
-DIST_SOURCES = $(am__eng_qbl_SOURCES_DIST) $(gematria_SOURCES) \
+SOURCES = $(anagram_SOURCES) $(eng_qbl_SOURCES) $(gematria_SOURCES) \
 	$(notarikon_SOURCES) $(temurah_SOURCES)
+DIST_SOURCES = $(anagram_SOURCES) $(am__eng_qbl_SOURCES_DIST) \
+	$(gematria_SOURCES) $(notarikon_SOURCES) $(temurah_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -223,10 +228,11 @@ AM_CFLAGS = -Wall -std=gnu99
 gematria_SOURCES = processing.c processing.h gematria.c gematria.h eq-gematria.c
 temurah_SOURCES = processing.c processing.h temurah.c temurah.h eq-temurah.c
 notarikon_SOURCES = processing.c processing.h notarikon.c notarikon.h eq-notarikon.c
-@BUILDENGQBL_TRUE@eng_qbl_SOURCES = processing.c gematria.c temurah.c notarikon.c eng-qbl.c
+anagram_SOURCES = processing.c processing.h anagram.c anagram.h eq-anagram.c
+@BUILDENGQBL_TRUE@eng_qbl_SOURCES = processing.c gematria.c temurah.c notarikon.c anagram.c eng-qbl.c
 @BUILDENGQBL_TRUE@eng_qbl_LDADD = $(LIBREADLINE)
 @BUILDENGQBL_TRUE@eng_qbl_DEPENDENCIES = $(LIBREADLINE)
-man_MANS = doc/english-kabbalah.1 doc/eng-qbl.1 doc/gematria.1 doc/temurah.1 doc/notarikon.1
+man_MANS = doc/english-kabbalah.1 doc/eng-qbl.1 doc/gematria.1 doc/temurah.1 doc/notarikon.1  doc/anagram.1
 EXTRA_DIST = sample-texts/bible-books.tar.gz \
 			 sample-texts/bible.txt.tar.gz \
 			 sample-texts/madd.txt \
@@ -326,6 +332,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+anagram$(EXEEXT): $(anagram_OBJECTS) $(anagram_DEPENDENCIES) 
+	@rm -f anagram$(EXEEXT)
+	$(LINK) $(anagram_OBJECTS) $(anagram_LDADD) $(LIBS)
 eng-qbl$(EXEEXT): $(eng_qbl_OBJECTS) $(eng_qbl_DEPENDENCIES) 
 	@rm -f eng-qbl$(EXEEXT)
 	$(LINK) $(eng_qbl_OBJECTS) $(eng_qbl_LDADD) $(LIBS)
@@ -345,7 +354,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anagram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eng-qbl.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-anagram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-gematria.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-notarikon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eq-temurah.Po@am__quote@

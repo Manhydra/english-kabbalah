@@ -185,35 +185,35 @@ int main(int argc, char **argv) {
 
 		if (f_avgadFlag) {
 			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(f_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+				if (strncasecmp(f_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 					count++;
 
 			printf("%i\n", count);
 		}
 		if (r_avgadFlag) {
 			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(r_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+				if (strncasecmp(r_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 					count++;
 
 			printf("%i\n", count);
 		}
 		if (atbashFlag) {
 			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(atbash_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+				if (strncasecmp(atbash_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 					count++;
 
 			printf("%i\n", count);
 		}
 		if (albamFlag) {
 			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(albam_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+				if (strncasecmp(albam_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 					count++;
 
 			printf("%i\n", count);
 		}
 		if (aikbekarFlag) {
 			for (i = 0, count = 0; i < searchList->numwords; i++)
-				if (strncmpi(aikbekar_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+				if (strncasecmp(aikbekar_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 					count++;
 
 			printf("%i\n", count);

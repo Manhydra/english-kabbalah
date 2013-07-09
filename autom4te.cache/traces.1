@@ -433,11 +433,13 @@ m4trace:configure.ac:32: -1- AC_DEFINE_TRACE_LITERAL([realloc])
 m4trace:configure.ac:32: -1- m4_pattern_allow([^realloc$])
 m4trace:configure.ac:32: -1- AH_OUTPUT([realloc], [/* Define to rpl_realloc if the replacement function should be used. */
 @%:@undef realloc])
-m4trace:configure.ac:33: -1- AC_CHECK_FUNCS([strdup getopt_long])
+m4trace:configure.ac:33: -1- AC_CHECK_FUNCS([strdup getopt_long strncasecmp])
 m4trace:configure.ac:33: -1- AH_OUTPUT([HAVE_STRDUP], [/* Define to 1 if you have the `strdup\' function. */
 @%:@undef HAVE_STRDUP])
 m4trace:configure.ac:33: -1- AH_OUTPUT([HAVE_GETOPT_LONG], [/* Define to 1 if you have the `getopt_long\' function. */
 @%:@undef HAVE_GETOPT_LONG])
+m4trace:configure.ac:33: -1- AH_OUTPUT([HAVE_STRNCASECMP], [/* Define to 1 if you have the `strncasecmp\' function. */
+@%:@undef HAVE_STRNCASECMP])
 m4trace:configure.ac:36: -1- AC_CHECK_HEADERS([curl/curl.h], [], [AC_MSG_ERROR([Either the header file curl/curl.h cannot be found or is not installed at all. Install curl/curl.h or set --with-curl=no.])
 							])
 m4trace:configure.ac:36: -1- AH_OUTPUT([HAVE_CURL_CURL_H], [/* Define to 1 if you have the <curl/curl.h> header file. */

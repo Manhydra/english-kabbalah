@@ -1,3 +1,12 @@
+0.3.0
+-----
+
+New Application: anagram
+
+- anagram is a new command line application that outputs a list of
+words or phrases from a given file where each letter of the inputted
+word or phrase, and the quantity thereof, is found.
+
 0.2.0
 -----
 

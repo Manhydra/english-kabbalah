@@ -15,7 +15,7 @@ temurah.o: temurah.c processing.h /usr/include/stdio.h \
  /usr/include/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/ctype.h /usr/include/xlocale.h /usr/include/string.h \
  /usr/include/bits/string.h /usr/include/bits/string2.h config.h \
- temurah.h
+ temurah.h /usr/lib/gcc/i486-linux-gnu/4.4.5/include/stdbool.h
 
 processing.h:
 
@@ -92,3 +92,5 @@ processing.h:
 config.h:
 
 temurah.h:
+
+/usr/lib/gcc/i486-linux-gnu/4.4.5/include/stdbool.h:

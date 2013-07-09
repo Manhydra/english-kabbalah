@@ -26,8 +26,9 @@
 #include "gematria.h"
 #include "temurah.h"
 #include "notarikon.h"
+#include "anagram.h"
 
-static const char const *commands[4] = {"gematria", "temurah", "notarikon", "help"};
+static const char const *commands[5] = {"gematria", "temurah", "notarikon", "anagram", "help"};
 
 static struct wordlist *cli(char *command, char *input) {
 	size_t lng = strlen(input);
@@ -76,32 +77,37 @@ static struct wordlist *searchResult(struct wordlist *list, enum listtype ltype,
 
 void displayUsage(char *command) {
 	if (strlen(command) > 5) {
-		if (strncmpi(command+5, "loadfile", 8) == 0) {
+		if (strncmp(command+5, "loadfile", 8) == 0) {
 
-			puts("\nUsage: FILE [FILE...]\n");
+			puts("\nUsage: FILE...\n");
 			puts("  Reads one or more files and generates a list of words into memory.\n  NOTE: Available in interactive mode only.\n");
 
-		} else if (strncmpi(command+5, "quit", 4) == 0) {
+		} else if (strncmp(command+5, "quit", 4) == 0) {
 
 			puts("\n  Exits the shell. It can't get any simpler than that.\n");
 
-		} else if (strncmpi(command+5, commands[0], 8) == 0) {
+		} else if (strncmp(command+5, commands[0], 8) == 0) {
 
-			puts("\nUsage: [-sc] [-p num] Word | 'Phrase'\n"
+			puts("\nUsage: [-sc] [-p num] Word...\n"
 				 "       [-sc] [-p num] -n numericvalue\n");
 			puts("  Outputs an English Gematria value for an inputted word or phrase. Consult the manpage of 'gematria' for details.\n");
 
-		} else if (strncmpi(command+5, commands[1], 7) == 0) {
+		} else if (strncmp(command+5, commands[1], 7) == 0) {
 
-			puts("\nUsage: [-a] [-bflrt] [-s] [-p num] Word | 'Phrase'\n");
+			puts("\nUsage: [-a] [-bflrt] [-s] [-p num] Word...\n");
 			puts("  Ciphers an inputted word or phrase. Consult the manpage of 'temurah' for details.\n");
 
-		} else if (strncmpi(command+5, commands[2], 9) == 0) {
+		} else if (strncmp(command+5, commands[2], 9) == 0) {
 
-			puts("\nUsage: [-f] acronym\n");
+			puts("\nUsage: -f {FILE...|URL...} acronym\n");
 			puts("  Outputs a list of phrases from a given file where the first letter of each word in a phrase is found in the inputted acronym. Consult the manpage of 'notarikon' for details.\n");
 
-		} else if (strncmpi(command+5, commands[3], 4) == 0) {
+		} else if (strncmp(command+5, commands[3], 7) == 0) {
+
+			puts("\nUsage: -f {FILE...|URL...} Word...\n");
+			puts("  Returns a list of words from a given file in which each letter of the given anagram, and the quantity thereof, is found.\n");
+
+		} else if (strncmp(command+5, commands[4], 4) == 0) {
 
 			puts("\n  Are you seriously looking for help on using 'help'? How much help do you really need???\n");
 
@@ -112,6 +118,7 @@ void displayUsage(char *command) {
 		puts("  gematria");
 		puts("  temurah");
 		puts("  notarikon");
+		puts("  anagram");
 		puts("  quit");
 		puts("Type 'help <command>' for detailed help about a command.\n");
 	}
@@ -122,13 +129,23 @@ int main(int argc, char **argv) {
 	int opt, numWordsInPhrase, searchFlag, searchCount, searchCountFlag;
 	enum listtype ltype;
 	struct wordlist *wList = NULL;
+	struct wordlist *searchFiles = NULL;
 	struct wordlist *controls = NULL;
 
+	if (! (searchFiles = (struct wordlist*) malloc(sizeof(struct wordlist))) ) {
+		fprintf(stderr, "Unable to allocate enough memory to store search files.\n");
+		exit(EXIT_FAILURE);
+	}
+	searchFiles->words = NULL;
+	searchFiles->numwords = 0;
+	searchFiles->size = 0;
+
 	if (argc > 1) {
-		if (strncmpi(argv[1], commands[0], strlen(argv[1])) &&
-			strncmpi(argv[1], commands[1], strlen(argv[1])) &&
-			strncmpi(argv[1], commands[2], strlen(argv[1])) &&
-			strncmpi(argv[1], commands[3], strlen(argv[1]))) {
+		if (strncmp(argv[1], commands[0], strlen(argv[1])) &&
+			strncmp(argv[1], commands[1], strlen(argv[1])) &&
+			strncmp(argv[1], commands[2], strlen(argv[1])) &&
+			strncmp(argv[1], commands[3], strlen(argv[1])) &&
+			strncmp(argv[1], commands[4], strlen(argv[1]))) {
 			printf("Unknown command: %s.\n", argv[1]);
 			exit(EXIT_FAILURE);
 		}
@@ -138,7 +155,7 @@ int main(int argc, char **argv) {
 		ctl.words = argv;
 		buf = listToString(&ctl, 1);
 
-		if (strncmpi(buf, commands[3], 4) == 0) {
+		if (strncmp(buf, commands[4], 4) == 0) {
 			displayUsage(buf);
 			free(buf);
 			buf = NULL;
@@ -165,18 +182,19 @@ int main(int argc, char **argv) {
 		}
 		add_history(command);
 
-		if (strncmpi(command, "help", 4) == 0) {
+		if (strncmp(command, "help", 4) == 0) {
 
 			displayUsage(command);
 
-		} else if (strncmpi(command, "quit", 4) == 0) {
+		} else if (strncmp(command, "quit", 4) == 0) {
 
 			free(command);
 			clearWordList(wList);
+			clearWordList(searchFiles);
 			clear_history();
 			exit(EXIT_SUCCESS);
 
-		} else if (strncmpi(command, "loadfile", 8) == 0) {
+		} else if (strncmp(command, "loadfile", 8) == 0) {
 
 			puts("\n  Enter one or more files and generates a list of words into memory.");
 			puts("  Type CTRL-D to exit this section.\n");
@@ -185,18 +203,23 @@ int main(int argc, char **argv) {
 
 				if (userInput && strlen(userInput)) {
 					add_history(userInput);
+
 					controls = cli(command, userInput);
+					searchFiles->words = (char**) realloc(searchFiles->words, searchFiles->numwords + controls->numwords + 1);
+
 					for (int i = 1; i < controls->numwords; i++) {
 						if (! (wList = generateWordListFromFile(wList, controls->words[i])) ) {
 							fprintf(stderr, "Unable to generate list of words. "
 											"%s is either corrupted or cannot be accessed at this time.\n"
 											"If %s is a remote file, you'll need to insall libcurl and recompile %s to access it. "
-											"Consult the README file for details.\n", controls->words[i], controls->words[i], PACKAGE);
+											"Consult the README file for details.\n", searchFiles->words[i], searchFiles->words[i], PACKAGE);
 						} else {
-							printf("File \"%s\" loaded.\n", controls->words[i]);
+							searchFiles->words[searchFiles->numwords++] = strdup(controls->words[i]);
+							printf("File \"%s\" loaded.\n", searchFiles->words[searchFiles->numwords-1]);
 						}
+
+						clearWordList(controls);
 					}
-					clearWordList(controls);
 				} else {
 					puts("");
 					break;
@@ -205,7 +228,7 @@ int main(int argc, char **argv) {
 				userInput = NULL;
 			}
 
-		} else if (strncmpi(command, "gematria", 8) == 0) {
+		} else if (strncmp(command, "gematria", 8) == 0) {
 
 			puts("\n  Enter a word or phrase.");
 			puts("  Type CTRL-D to exit this section.\n");
@@ -296,7 +319,7 @@ int main(int argc, char **argv) {
 				userInput = NULL;
 			}
 
-		} else if (strncmpi(command, "temurah", 7) == 0) {
+		} else if (strncmp(command, "temurah", 7) == 0) {
 
 			puts("\n  Enter a word or phrase.");
 			puts("  Type CTRL-D to exit this section.\n");
@@ -391,35 +414,35 @@ int main(int argc, char **argv) {
 					puts("\n---- Search Results ----------------------------------");
 					if (f_avgadFlag) {
 						for (int i = 0, searchCount = 0; i < searchList->numwords; i++)
-							if (strncmpi(f_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+							if (strncasecmp(f_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 								searchCount++;
 
 						printf("Forward-Avgad:  %d\n", searchCount);
 					}
 					if (r_avgadFlag) {
 						for (int i = 0, searchCount = 0; i < searchList->numwords; i++)
-							if (strncmpi(r_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+							if (strncasecmp(r_avgad_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 								searchCount++;
 
 						printf("Backward-Avgad: %d\n", searchCount);
 					}
 					if (atbashFlag) {
 						for (int i = 0, searchCount = 0; i < searchList->numwords; i++)
-							if (strncmpi(atbash_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+							if (strncasecmp(atbash_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 								searchCount++;
 
 						printf("Atbash:         %d\n", searchCount);
 					}
 					if (albamFlag) {
 						for (int i = 0, searchCount = 0; i < searchList->numwords; i++)
-							if (strncmpi(albam_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+							if (strncasecmp(albam_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 								searchCount++;
 
 						printf("Albam:          %d\n", searchCount);
 					}
 					if (aikbekarFlag) {
 						for (int i = 0, searchCount = 0; i < searchList->numwords; i++)
-							if (strncmpi(aikbekar_w, searchList->words[i], strlen(searchList->words[i])) == 0)
+							if (strncasecmp(aikbekar_w, searchList->words[i], strlen(searchList->words[i])) == 0)
 								searchCount++;
 
 						printf("Aik Bekar:      %d\n", searchCount);
@@ -442,7 +465,7 @@ int main(int argc, char **argv) {
 				userInput = NULL;
 			}
 
-		} else if (strncmpi(command, "notarikon", 9) == 0) {
+		} else if (strncasecmp(command, "notarikon", 9) == 0) {
 
 			puts("\n  Enter an acronym.");
 			puts("  Type CTRL-D to exit this section.\n");
@@ -459,6 +482,31 @@ int main(int argc, char **argv) {
 
 				puts("\n---- Notarikon Results -------------------------------");
 				if (wList) notarikon(userInput, wList);
+				else puts("You have not loaded a file from which to search, thus no result.");
+				puts("------------------------------------------------------\n");
+
+				free(userInput);
+				userInput = NULL;
+			}
+
+		} else if (strncasecmp(command, "anagram", 7) == 0) {
+
+			puts("\n  Enter a word or phrase.");
+			puts("  Type CTRL-D to exit this section.\n");
+
+			while (1) {
+				userInput = readline("anagram> ");
+
+				if (!userInput) {
+					puts("");
+					free(userInput);
+					break;
+				} else if (!strlen(userInput)) continue;
+
+				add_history(userInput);
+
+				puts("\n---- Anagram Results ---------------------------------");
+				if (wList) anagram(userInput, wList);
 				else puts("You have not loaded a file from which to search, thus no result.");
 				puts("------------------------------------------------------\n");
 

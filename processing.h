@@ -48,6 +48,22 @@ struct wordlist {
 enum listtype { wordtype, phrasetype };
 
 /*
+ * Covert all characters in string to lower case
+ * name: strToLowerCase
+ * @param string
+ * @return void
+ */
+void strToLowerCase(char*);
+
+/*
+ * Returns a string containing no spaces
+ * name: stripSpace
+ * @param string
+ * @return string
+ */
+char *stripSpace(char*);
+
+/*
  * Returns string containing only alphabet characters
  * name: stripNonAlpha
  * @param string
@@ -62,16 +78,6 @@ char *stripNonAlpha(char*);
  * @return string
  */
 char *stripMarkupTags(char*);
-
-/*
- * Based on strncmp, compares strings using case insensitivy for the
- * purpose of eliminating traces of duplicate words (A = a, Z = z, etc.).
- *
- * name: strncmpi
- * @param string, string, size_t
- * @return int
- */
-int strncmpi (const char*, const char*, size_t);
 
 /*
  * Processes a file stream to retrieve its content and size.

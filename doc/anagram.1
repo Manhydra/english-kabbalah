@@ -1,0 +1,45 @@
+.TH "ENGLISH NOTARIKON" 1 "July 2013" "eng-qbl 0.3" "English Kabbalah"
+.SH NAME
+English Anagram \- Part of the English Kabbalah suite
+.SH SYNOPSIS
+.B anagram
+\fB\-f\fR | \fB--file\fR {\fIFILE\fR|\fIURL\fR} \Word...\fR
+.SH DESCRIPTION
+Outputs a list of words or phrases from a given file(s) where each letter
+of the inputted word or phrase, and the quantity thereof, is found.
+.PP
+.SS Background
+.PP
+An anagram is a word or phrase that produces a new word or phrase
+when all its exact letters are rearranged; for example "orchestra"
+can be rearranged into "carthorse."
+.PP
+The method of finding an anagram is actually a form of temurah(1).
+Unlike the other methods of temurah(1), however, an anagram relies
+on a rearrangement of each letter within, where any new word or
+phrase is found based on random letter positioning rather than a
+predefined method of transposition.
+.SH OPTIONS
+.PP
+-f, --file \fIFILE\fR|\fIURL\fR
+Local or remote text file(s) from which to find words or phrases
+matching anagram.
+.PP
+\fIWord...\fR
+A word representing a proposed acronym
+.SH EXAMPLES
+.RS
+\fBanagram\fR -f ./bible-books/Genesis.txt mean dog ate him now is in grade c
+.br
+God created man in his own image in
+.RE
+.SH BUGS
+Report technical problems using these programs to the author.
+.SH AUTHOR
+Written by Marc Sylvestre <marc.sylvestre@manhydra.com>
+.SH SEE ALSO
+.IR english-kabbalah (1),
+.IR eng-qbl (1),
+.IR gematria (1),
+.IR temurah (1),
+.IR notarikon (1)

@@ -40,6 +40,11 @@ file for those results.
   Outputs a list of phrases from a given file where the first letter of
   each word in a phrase is found in the inputted acronym.
 
+- English Anagram
+  Outputs a list of words or phrases from a given file(s) where each
+  letter of the inputted word or phrase, and the quantity thereof,
+  is found.
+
 Subject Background
 ==================
 

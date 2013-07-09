@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 m4_define([engqbl_version_major], [0])
-m4_define([engqbl_version_minor], [2])
+m4_define([engqbl_version_minor], [3])
 m4_define([engqbl_version_build], [0])
 m4_define([engqbl_version_suffix], [])
 m4_define([engqbl_version], [engqbl_version_major.engqbl_version_minor.engqbl_version_build])
@@ -30,7 +30,7 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([strdup getopt_long])
+AC_CHECK_FUNCS([strdup getopt_long strncasecmp])
 
 dnl  no=do not compile with curl,  yes=compile with curl,  *=error
 AC_ARG_WITH(curl,

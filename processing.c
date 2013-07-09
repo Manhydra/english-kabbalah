@@ -23,6 +23,42 @@
 #endif
 
 /*
+ * name: strToLowerCase
+ * @param string
+ * @return void
+ */
+void strToLowerCase(char *w) {
+	int wl = strlen(w);
+
+	for (int i = 0; i < wl; ++i)
+		w[i] = tolower(w[i]);
+}
+
+/*
+ * name: stripSpace
+ * @param string
+ * @return string
+ */
+char *stripSpace(char *w) {
+	int wl = strlen(w);
+	int n = 0;
+	char *naTemp = NULL;
+
+	if (w[wl] == '\n') w[wl--] = '\0';
+
+	if (! (naTemp = (char*) malloc(wl)) )
+		return NULL;
+
+	for (int i = 0; i < wl; ++i)
+		if (w[i] != ' ' && w[i] != '\r' && w[i] != '\n')
+			naTemp[n++] = w[i];
+
+	naTemp[n] = '\0';
+
+	return naTemp;
+}
+
+/*
  * name: stripNonAlpha
  * @param string
  * @return string
@@ -91,50 +127,6 @@ char *stripMarkupTags(char *w) {
 	return mtTemp;
 }
 
-/*
- * name: strncmpi
- * @param string, string, size_t
- * @return int
- */
-
-int strncmpi (const char *s1, const char *s2, size_t n) {
-	unsigned char c1 = '\0';
-	unsigned char c2 = '\0';
-
-	if (n >= 4) {
-		size_t n4 = n >> 2;
-		do {
-			c1 = (unsigned char) tolower(*s1++);
-			c2 = (unsigned char) tolower(*s2++);
-			if (c1 == '\0' || c1 != c2)
-				return c1 - c2;
-			c1 = (unsigned char) tolower(*s1++);
-			c2 = (unsigned char) tolower(*s2++);
-			if (c1 == '\0' || c1 != c2)
-				return c1 - c2;
-			c1 = (unsigned char) tolower(*s1++);
-			c2 = (unsigned char) tolower(*s2++);
-			if (c1 == '\0' || c1 != c2)
-				return c1 - c2;
-			c1 = (unsigned char) tolower(*s1++);
-			c2 = (unsigned char) tolower(*s2++);
-			if (c1 == '\0' || c1 != c2)
-				return c1 - c2;
-		} while (--n4 > 0);
-		n &= 3;
-    }
-
-	while (n > 0) {
-		c1 = (unsigned char) tolower(*s1++);
-		c2 = (unsigned char) tolower(*s2++);
-		if (c1 == '\0' || c1 != c2)
-			return c1 - c2;
-		n--;
-	}
-
-	return c1 - c2;
-}
-
 #if defined(HAVE_CURL_CURL_H) && (defined(HAVE_LIBCURL) || defined(HAVE_LIBCURLDLL))
 /*
  * Curl callback function for processing remote files
@@ -176,8 +168,8 @@ struct filebuffer *proccessFile(const char *pFile) {
 	FILE *srchFile;
 #if defined(HAVE_CURL_CURL_H) && (defined(HAVE_LIBCURL) || defined(HAVE_LIBCURLDLL))
 	CURL *webRes;
-	if (strncmpi(pFile, "https:", 6) == 0 ||
-	    strncmpi(pFile, "http:", 5) == 0) {
+	if (strncasecmp(pFile, "https:", 6) == 0 ||
+	    strncasecmp(pFile, "http:", 5) == 0) {
 		fb = (struct filebuffer*) malloc(sizeof(struct filebuffer));
 		fb->fbuffer = (char*) malloc(1);
 		fb->fbsize = 0;
@@ -300,7 +292,7 @@ struct wordlist *generateUniqueWordList(struct wordlist *wlist) {
 		found = 0;
 		for (j = 0; j < wlist->numwords; ++j) {
 			if (uniqueWords->words[j] == NULL) break;
-			if (strncmpi(uniqueWords->words[j], wlist->words[i], strlen(wlist->words[i])) == 0) {
+			if (strncasecmp(uniqueWords->words[j], wlist->words[i], strlen(wlist->words[i])) == 0) {
 				found = 1; break;
 			}
 		}
@@ -378,7 +370,7 @@ struct wordlist *generateUniquePhraseList(struct wordlist *plist) {
 		found = 0;
 		for (j = 0; j < plist->numwords; ++j) {
 			if (uniquePhrases->words[j] == NULL) break;
-			if (strncmpi(uniquePhrases->words[j], plist->words[i], strlen(plist->words[i])) == 0) {
+			if (strncasecmp(uniquePhrases->words[j], plist->words[i], strlen(plist->words[i])) == 0) {
 				found = 1; break;
 			}
 		}
